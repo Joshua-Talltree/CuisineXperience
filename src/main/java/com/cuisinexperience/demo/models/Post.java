@@ -13,6 +13,13 @@ public class Post {
     @Column(name = "title", length = 225, nullable = false)
     private String title;
 
+    @ManyToMany
+    @JoinTable(
+            name = "posts_categories",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "post_id")}
+    )
+
     @Column(name = "content", columnDefinition = "TEXT", length = 3000, nullable = false)
     private String content;
 

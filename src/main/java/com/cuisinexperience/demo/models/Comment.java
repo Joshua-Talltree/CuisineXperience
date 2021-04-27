@@ -16,7 +16,7 @@ public class Comment {
     @Column(name = "post_id")
     private Long postId;
 
-    @Column(name = "comment")
+    @Column(name = "comment", columnDefinition = "TEXT", length = 3000, nullable = false)
     private String comment;
 
     @CreationTimestamp

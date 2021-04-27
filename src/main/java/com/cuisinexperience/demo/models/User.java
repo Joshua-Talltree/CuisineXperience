@@ -15,11 +15,10 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "friends",
-            joinColumns = {@JoinColumn(name = "user_sender_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_recipient_id")}
+            name = "posts_liked",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "post_id")}
     )
-//    private List<Friend> friends;
 
     @Column(name = "email")
     private String email;
@@ -28,7 +27,7 @@ public class User {
     private String password;
 
     @Column(name = "avatar_url")
-    private String avatarURl;
+    private String avatarUrl;
 
     @Column(name = "is_admin")
     private boolean isAdmin;
@@ -36,11 +35,11 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password, String avatarURl, boolean isAdmin) {
+    public User(String username, String email, String password, String avatarUrl, boolean isAdmin) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.avatarURl = avatarURl;
+        this.avatarUrl = avatarUrl;
         this.isAdmin = isAdmin;
     }
 
@@ -77,11 +76,11 @@ public class User {
     }
 
     public String getAvatarURl() {
-        return avatarURl;
+        return avatarUrl;
     }
 
     public void setAvatarURl(String avatarURl) {
-        this.avatarURl = avatarURl;
+        this.avatarUrl = avatarURl;
     }
 
     public boolean isAdmin() {
