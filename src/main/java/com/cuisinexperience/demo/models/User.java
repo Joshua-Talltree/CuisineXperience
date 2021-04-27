@@ -19,7 +19,6 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_sender_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_recipient_id")}
     )
-
 //    private List<Friend> friends;
 
     @Column(name = "email")
