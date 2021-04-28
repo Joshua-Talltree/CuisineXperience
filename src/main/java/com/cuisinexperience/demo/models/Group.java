@@ -3,6 +3,7 @@ package com.cuisinexperience.demo.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "groups")
@@ -22,6 +23,8 @@ public class Group {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "group_id")}
     )
+
+    private List<User> users;
 
     @Column(name = "description")
     private String description;
