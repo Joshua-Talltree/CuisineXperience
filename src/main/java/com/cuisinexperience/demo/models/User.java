@@ -46,6 +46,13 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public User(User copy){
+        id = copy.id;
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+    }
+
     public Long getId() {
         return id;
     }
