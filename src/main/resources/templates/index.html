@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>And, Here We Are!</title>
+</head>
+<body>
+<!--<div>-->
+<!--    <nav th:include="posts/navbar.html :: navbar"></nav>-->
+<!--</div>-->
+<div sec:authorize="isAuthenticated()">
+    <h2>Welcome <span th:text="${#authentication.principal.username}"/></h2></div>
+<!--    <span class="hidden" th:text="${#authentication.principal.id}"/>-->
+<!--    <span class="hidden" th:text="${#authentication.principal.email}"/>-->
+
+
+<main class="container">
+    <h1 class="text-center">See All Posts Here:</h1>
+    <br>
+    <div class="post">
+        <div class="card text-black bg-light mb-3 row" th:each="post : ${posts}" style="max-width: 300rem;">
+            <div sec:authorize="isAuthenticated()" class="card-header">
+                <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
+            </div>
+            <div sec:authorize="isAnonymous()" class="card-header">
+                <h5 class="card-title" th:text="${post.title}"></h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text" th:text="${post.content}"></p>
+            </div>
+        </div>
+    </div>
+</main>
+<div>
+<!--    <footer th:replace="posts/footer :: footer"></footer>-->
+</div>
+</body>
+</html>
