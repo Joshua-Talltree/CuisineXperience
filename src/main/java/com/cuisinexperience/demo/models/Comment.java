@@ -1,5 +1,6 @@
 package com.cuisinexperience.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -24,8 +25,9 @@ public class Comment {
     @Column(name = "time_sent")
     private Date timeSent;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User userId;
 
     public Comment() {

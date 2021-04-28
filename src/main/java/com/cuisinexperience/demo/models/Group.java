@@ -1,5 +1,7 @@
 package com.cuisinexperience.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,7 @@ public class Group {
     private String name;
 
     @ManyToMany
+    @JsonManagedReference
     @JoinTable(
             name = "users_food_groups",
             joinColumns = {@JoinColumn(name = "user_id")},
