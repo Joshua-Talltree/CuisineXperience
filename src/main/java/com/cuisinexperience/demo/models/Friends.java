@@ -14,10 +14,12 @@ public class Friends {
 
     @ManyToOne
     @JoinColumn(name = "user_sender_id")
+    @JsonManagedReference
     private User userSenderId;
 
     @ManyToOne
     @JoinColumn(name = "user_recipient_id")
+    @JsonManagedReference
     private User userRecipientId;
 
     @Column(name = "status")

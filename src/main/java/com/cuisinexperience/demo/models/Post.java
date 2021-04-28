@@ -1,6 +1,9 @@
 package com.cuisinexperience.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -10,15 +13,19 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(name = "title", length = 225, nullable = false)
     private String title;
 
     @ManyToMany
+    @JsonManagedReference
     @JoinTable(
             name = "posts_categories",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "post_id")}
     )
+
+    private List<Categories> categories;
 
     @Column(name = "content", columnDefinition = "TEXT", length = 3000, nullable = false)
     private String content;
