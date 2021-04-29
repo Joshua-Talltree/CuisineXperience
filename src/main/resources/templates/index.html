@@ -21,12 +21,16 @@
             <div sec:authorize="isAuthenticated()" class="card-header">
                 <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
             </div>
-            <div sec:authorize="isAnonymous()" class="card-header">
-                <h5 class="card-title" th:text="${post.title}"></h5>
+            <div sec:authorize="isAnonymous()">
+                <img th:src="${post.imageUrl}" alt="placeholder" src=""/>
             </div>
             <div class="card-body">
                 <p class="card-text" th:text="${post.content}"></p>
             </div>
+            <div class="card-body">
+                <h5 class="card-body" th:text="${post.timePosted}"></h5>
+            </div>
+            <button class="btn" type="submit" th:action="@{/logout}" th:method="post">logout</button>
         </div>
     </div>
 </main>
