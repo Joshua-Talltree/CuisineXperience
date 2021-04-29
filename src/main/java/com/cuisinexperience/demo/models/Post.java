@@ -17,6 +17,7 @@ public class Post {
     @Column(name = "title", length = 225, nullable = false)
     private String title;
 
+
     @ManyToMany
     @JsonManagedReference
     @JoinTable(
@@ -26,6 +27,7 @@ public class Post {
     )
 
     private List<Categories> categories;
+
 
     @Column(name = "content", columnDefinition = "TEXT", length = 3000, nullable = false)
     private String content;
@@ -98,4 +100,12 @@ public class Post {
     public void setOwner(User owner) {
         this.owner = owner;
     }
+    public List<Categories> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Categories> categories) {
+        this.categories = categories;
+    }
+
 }
