@@ -22,8 +22,8 @@ public class Post {
     @JsonManagedReference
     @JoinTable(
             name = "posts_categories",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "post_id")}
+            joinColumns = {@JoinColumn(name = "post_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")}
     )
 
     private List<Categories> categories;

@@ -8,12 +8,14 @@
 
 <h2 class="text-center" th:text="${owner.username + 's Profile'}"></h2>
 <ul>
-   <li th:each="categories : ${categories}">
-       <a th:href="${'/profile/' + owner.id + '/category/' + categories.id}" th:text="${categories}"></a>
-   </li>
+    <div th:each="category : ${categories}">
+        <li>
+            <a th:href="${'/profile/' + owner.id + '/category/' + category.id}"><span th:text="${category.name}"></span></a>
+        </li>
+    </div>
 </ul>
 <div th:each="item : ${posts}">
-    <img th:if="${item.imageUrl.size() > 0}" src="" alt="" th:src="${item.imageUrl.get(0).getPath()}">
+    <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
     <div class="card-body"></div>
     <h4 th:text="${item.title}"></h4>
     <p th:text="${item.content}"></p>

@@ -14,8 +14,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "post_id")
-    private Long postId;
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
+    private Post post;
 
     @Column(name = "comment", columnDefinition = "TEXT", length = 3000, nullable = false)
     private String comment;
@@ -33,8 +34,8 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Long postId, String comment, Date timeSent, User userId) {
-        this.postId = postId;
+    public Comment(Post post, String comment, Date timeSent, User userId) {
+        this.post = post;
         this.comment = comment;
         this.timeSent = timeSent;
         this.userId = userId;
@@ -48,12 +49,12 @@ public class Comment {
         this.id = id;
     }
 
-    public Long getPostId() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostId(Long postId) {
-        this.postId = postId;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public String getComment() {

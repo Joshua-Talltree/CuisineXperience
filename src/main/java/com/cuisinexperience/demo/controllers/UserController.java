@@ -47,24 +47,26 @@ public class UserController {
     }
 
     @GetMapping("profile/{ownerId}")
-    public String showProfile(Model vModel, @PathVariable String ownerId) {
-        List<Post> posts = (List<Post>) postDao.findPostsByOwnerId(Long.parseLong(ownerId));
+    public String showProfile(Model vModel, @PathVariable Long ownerId) {
+        List<Post> posts = postDao.findPostsByOwnerId(ownerId);
         vModel.addAttribute("posts", posts);
 
         List<Categories> categories = new ArrayList<>();
         for (Post post : posts) {
             post.getCategories().stream().filter(category -> !categories.contains(category)).forEach(categories::add);
         }
-        vModel.addAttribute("owner", userDao.getOne(Long.parseLong(ownerId)));
+        vModel.addAttribute("owner", userDao.getOne(ownerId));
         vModel.addAttribute("categories", categories);
 
         return "profile";
     }
 
     @GetMapping("/profile/{ownerId}/category/{categoryId}")
-    public String seeCategory(@PathVariable String categoryId, @PathVariable String ownerId, Model vModel) {
-        Categories searchCategories = categoriesDao.getOne(Long.parseLong(categoryId));
-        List<Post> posts = postDao.findPostsByCategoryAndContainsOwner(searchCategories, userDao.getOne(Long.parseLong(ownerId)));
+    public String seeCategory(@PathVariable Long categoryId, @PathVariable String ownerId, Model vModel) {
+        Categories category = categoriesDao.getOne(categoryId);
+//        List<Post> posts = postDao.findPostsByCategoryAndContainsOwner(searchCategories, userDao.getOne(Long.parseLong(ownerId)));
+//        vModel.addAttribute("posts", posts);
+        List<Post> posts =  postDao.findPostsByCategoriesEquals(category);
         vModel.addAttribute("posts", posts);
         vModel.addAttribute("owner", userDao.getOne(Long.parseLong(ownerId)));
         vModel.addAttribute("category", categoriesDao.findAll());

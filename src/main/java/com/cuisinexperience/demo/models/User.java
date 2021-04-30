@@ -14,6 +14,14 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "posts_liked",
@@ -34,6 +42,7 @@ public class User {
 
     @Column(name = "is_admin")
     private boolean isAdmin;
+
 
     public User() {
     }
@@ -99,5 +108,14 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }
