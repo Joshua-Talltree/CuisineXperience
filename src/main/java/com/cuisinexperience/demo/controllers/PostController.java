@@ -2,14 +2,15 @@ package com.cuisinexperience.demo.controllers;
 
 import com.cuisinexperience.demo.models.Categories;
 import com.cuisinexperience.demo.models.Post;
+import com.cuisinexperience.demo.models.User;
 import com.cuisinexperience.demo.repos.CategoriesRepository;
 import com.cuisinexperience.demo.repos.PostRepository;
 import com.cuisinexperience.demo.repos.UserRepository;
 import com.cuisinexperience.demo.services.EmailServices;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +33,27 @@ public class PostController {
         List<Post> postsFromDB = postDao.findAll();
         viewModel.addAttribute("posts", postsFromDB);
         return "/index";
+    }
+
+
+    @GetMapping("/posts/create")
+    public String createPosts(Model model) {
+        model.addAttribute("post", new Post());
+        return "/create";
+    }
+
+    @PostMapping("/posts/create")
+    public String createPostsHere(@ModelAttribute Post postToCreate, @RequestParam(name = "time_posted") String timePosted) {
+
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // save the post
+        postDao.save(postToCreate);
+        // set the user
+        postToCreate.setOwner(userToAdd);
+        Post savedPost = postDao.save(postToCreate);
+        savedPost.setTimePosted(timePosted);
+        emailServices.prepareAndSend(savedPost,"Here is the title", "Here is the body");
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/category/{categoryId}")
