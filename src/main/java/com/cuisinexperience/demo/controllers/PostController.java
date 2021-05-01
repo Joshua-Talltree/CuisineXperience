@@ -43,7 +43,7 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPostsHere(@ModelAttribute Post postToCreate, @RequestParam(name = "time_posted") String timePosted) {
+    public String createPostsHere(@ModelAttribute Post postToCreate) {
 
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // save the post
@@ -51,7 +51,6 @@ public class PostController {
         // set the user
         postToCreate.setOwner(userToAdd);
         Post savedPost = postDao.save(postToCreate);
-        savedPost.setTimePosted(timePosted);
         emailServices.prepareAndSend(savedPost,"Here is the title", "Here is the body");
         return "redirect:/posts";
     }

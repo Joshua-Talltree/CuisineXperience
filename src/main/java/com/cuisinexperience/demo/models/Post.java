@@ -1,8 +1,10 @@
 package com.cuisinexperience.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -32,8 +34,12 @@ public class Post {
     @Column(name = "content", columnDefinition = "TEXT", length = 3000, nullable = false)
     private String content;
 
+
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "time_posted")
-    private String timePosted;
+    private Date timePosted;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -45,10 +51,9 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String content, String timePosted, String imageUrl, User owner) {
+    public Post(String title, String content, String imageUrl, User owner) {
         this.title = title;
         this.content = content;
-        this.timePosted = timePosted;
         this.imageUrl = imageUrl;
         this.owner = owner;
     }
@@ -77,11 +82,11 @@ public class Post {
         this.content = content;
     }
 
-    public String getTimePosted() {
+    public Date getTimePosted() {
         return timePosted;
     }
 
-    public void setTimePosted(String timePosted) {
+    public void setTimePosted(Date timePosted) {
         this.timePosted = timePosted;
     }
 
