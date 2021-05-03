@@ -6,8 +6,18 @@
 </head>
 <body>
 <div>
-    <p>Welcome Administrator(<span sec:authentication="principal.username">Admin</span>)</p>
-    <p sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></p>
+    <p>Welcome Administrator</p>
+    <p sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/logout}">Logout</a></p>
+</div>
+<div>
+    <h5>List of Users</h5>
+    <ul th:each="user : ${users}">
+        <li th:text="${user.id} + ${user.username}"></li>
+        <form th:action="${'/user/' + user.id + '/delete'}" th:method="post">
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </form>
+    </ul>
+
 </div>
 </body>
 </html>
