@@ -102,7 +102,7 @@ public class User {
         this.avatarUrl = avatarURl;
     }
 
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 

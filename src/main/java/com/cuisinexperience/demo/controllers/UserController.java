@@ -83,17 +83,37 @@ public class UserController {
     public String viewFriends(Model vModel, Long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Friends> friendsList = friendsDao.getFriendsById(id);
-        vModel.addAttribute("friends", friendsList);
-        vModel.addAttribute("user", loggedInUser);
+        List<User> userList = new ArrayList<User>();
+        for (Friends friend : friendsList) {
+           if (userDao.findUserById(friend.getUserRecipientId().getId()).getId() == loggedInUser.getId()) {
+               userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+            } else {
+               userList.add(userDao.findUserById(friend.getUserRecipientId().getId()));
+           }
+        }
+        vModel.addAttribute("friends", userList);
+        vModel.addAttribute("owner", loggedInUser);
         return "profile";
     }
 
     @GetMapping("/user/admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String userManage(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User loggedInUser = userDao.getOne(user.getId());
         List<User> users = userDao.findAll();
         model.addAttribute("users", users);
-        return "admin";
+        if (loggedInUser.getIsAdmin()) {
+            return "admin";
+        } else {
+            return "redirect:/profile";
+        }
     }
 
+    @PostMapping("/user/{id}/delete")
+    public String deletePost(@PathVariable Long id) {
+        User user = userDao.findUserById(id);
+        userDao.delete(user);
+        return "redirect:/admin";
+    }
 }

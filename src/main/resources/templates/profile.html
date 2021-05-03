@@ -25,7 +25,8 @@
 </div>
 <ul>
     <div th:each="friendsObj : ${friends}">
-        <li th:text="${friendsObj.friends.userRecipientId}"></li>
+        <li th:text="${friendsObj.id}"></li>
+        <li th:text="${friendsObj.username}"></li>
     </div>
 </ul>
 </body>
