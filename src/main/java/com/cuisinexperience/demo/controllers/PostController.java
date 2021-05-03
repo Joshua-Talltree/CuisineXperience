@@ -74,10 +74,6 @@ public class PostController {
     public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable String id){
 
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        System.out.println(id);
-        System.out.println(userToAdd.getUsername());
-        System.out.println(postToUpdate.getTitle());
         postToUpdate.setId(Long.parseLong(id));
 
         // set the user

@@ -116,4 +116,25 @@ public class UserController {
         userDao.delete(user);
         return "redirect:/admin";
     }
+
+    @GetMapping("/user/{id}/update")
+    public String updateUserForm(Model model, @PathVariable Long id){
+        model.addAttribute("user", userDao.getOne(id));
+        return "signup";
+    }
+
+    @PostMapping("/user/{id}/update")
+    public String updatePost(@ModelAttribute Post userToUpdate, @PathVariable String id){
+
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userToUpdate.setId(Long.parseLong(id));
+
+        // set the user
+        userToUpdate.setOwner(userToAdd);
+
+        // save the post
+        postDao.save(userToUpdate);
+
+        return "redirect:/profile";
+    }
 }

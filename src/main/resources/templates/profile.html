@@ -25,6 +25,9 @@
     <form th:action="${'/posts/' + item.id + '/update'}" method="get">
         <button type="submit" class="btn btn-success">Update</button>
     </form>
+    <form th:action="${'/user/' + item.id + '/update'}" method="get">
+        <button type="submit" class="btn btn-success">Update Profile</button>
+    </form>
 </div>
 <ul>
     <div th:each="friendsObj : ${friends}">
