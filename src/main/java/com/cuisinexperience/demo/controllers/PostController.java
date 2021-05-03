@@ -63,4 +63,30 @@ public class PostController {
         model.addAttribute("categories", categoriesDao.findAll());
         return "index";
     }
+
+    @GetMapping("/posts/{id}/update")
+    public String updatePostForm(Model model, @PathVariable Long id){
+        model.addAttribute("post", postDao.getOne(id));
+        return "create";
+    }
+
+    @PostMapping("/posts/{id}/update")
+    public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable String id){
+
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        System.out.println(id);
+        System.out.println(userToAdd.getUsername());
+        System.out.println(postToUpdate.getTitle());
+        postToUpdate.setId(Long.parseLong(id));
+
+        // set the user
+        postToUpdate.setOwner(userToAdd);
+
+        // save the post
+        postDao.save(postToUpdate);
+
+        return "redirect:/posts";
+    }
+
 }
