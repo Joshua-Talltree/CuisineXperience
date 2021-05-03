@@ -1,11 +1,15 @@
 package com.cuisinexperience.demo.controllers;
 
 import com.cuisinexperience.demo.models.Categories;
+import com.cuisinexperience.demo.models.Friends;
 import com.cuisinexperience.demo.models.Post;
 import com.cuisinexperience.demo.models.User;
 import com.cuisinexperience.demo.repos.CategoriesRepository;
+import com.cuisinexperience.demo.repos.FriendsRepository;
 import com.cuisinexperience.demo.repos.PostRepository;
 import com.cuisinexperience.demo.repos.UserRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +27,15 @@ public class UserController {
     private final PostRepository postDao;
     private final CategoriesRepository categoriesDao;
     private final PasswordEncoder passwordEncoder;
+    private final FriendsRepository friendsDao;
 
 
-    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, FriendsRepository friendsDao) {
         this.userDao = userDao;
         this.postDao = postDao;
         this.categoriesDao = categoriesDao;
         this.passwordEncoder = passwordEncoder;
+        this.friendsDao = friendsDao;
     }
 
     @GetMapping("/signup")
@@ -72,4 +78,22 @@ public class UserController {
         vModel.addAttribute("category", categoriesDao.findAll());
         return "profile";
     }
+
+    @GetMapping("/user/friends")
+    public String viewFriends(Model vModel, Long id) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Friends> friendsList = friendsDao.getFriendsById(id);
+        vModel.addAttribute("friends", friendsList);
+        vModel.addAttribute("user", loggedInUser);
+        return "profile";
+    }
+
+    @GetMapping("/user/admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String userManage(Model model) {
+        List<User> users = userDao.findAll();
+        model.addAttribute("users", users);
+        return "admin";
+    }
+
 }
