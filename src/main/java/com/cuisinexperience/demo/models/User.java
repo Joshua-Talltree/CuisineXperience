@@ -110,7 +110,6 @@ public class User {
         isAdmin = admin;
     }
 
-
     public String getAvatarUrl() {
         return avatarUrl;
     }
@@ -118,4 +117,5 @@ public class User {
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
+
 }

@@ -23,5 +23,10 @@
         <button type="submit" class="btn btn-primary">View Post</button>
     </a>
 </div>
+<ul>
+    <div th:each="friendsObj : ${friends}">
+        <li th:text="${friendsObj.friends.userRecipientId}"></li>
+    </div>
+</ul>
 </body>
 </html>
