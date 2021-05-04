@@ -9,7 +9,7 @@
 <div th:if="${posts}" th:each="postSearch : ${posts}">
     <h5 th:text="${postSearch.title}"></h5>
     <img th:if="${postSearch.imageUrl == null}" alt="placeholder" src=""/>
-    <img th:if="${postSearch.imageUrl != null}" alt="placeholder" src="">
+    <img th:if="${postSearch.imageUrl != null}" alt="placeholder" th:src="${postSearch.imageUrl}">
     <p th:text="${postSearch.content}"></p>
 </div>
 
