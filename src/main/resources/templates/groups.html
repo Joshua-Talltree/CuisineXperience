@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Create Your Group Here:</h2>
+<br>
+<form th:action="@{/group}" method="POST" th:object="${group}">
+    <div>
+        <input class="form-control" type="text" id="username" th:field="*{name}"
+               placeholder="johndoe123"/>
+    </div>
+    <div>
+        <input class="form-control" type="text" id="description" th:field="*{description}"
+               placeholder="example@example.com"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Group</button>
+</form>
+</body>
+</html>

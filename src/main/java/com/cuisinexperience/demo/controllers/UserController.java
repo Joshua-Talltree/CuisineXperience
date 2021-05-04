@@ -1,13 +1,7 @@
 package com.cuisinexperience.demo.controllers;
 
-import com.cuisinexperience.demo.models.Categories;
-import com.cuisinexperience.demo.models.Friends;
-import com.cuisinexperience.demo.models.Post;
-import com.cuisinexperience.demo.models.User;
-import com.cuisinexperience.demo.repos.CategoriesRepository;
-import com.cuisinexperience.demo.repos.FriendsRepository;
-import com.cuisinexperience.demo.repos.PostRepository;
-import com.cuisinexperience.demo.repos.UserRepository;
+import com.cuisinexperience.demo.models.*;
+import com.cuisinexperience.demo.repos.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,14 +22,16 @@ public class UserController {
     private final CategoriesRepository categoriesDao;
     private final PasswordEncoder passwordEncoder;
     private final FriendsRepository friendsDao;
+    private final GroupRepository groupDao;
 
 
-    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, FriendsRepository friendsDao) {
+    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, FriendsRepository friendsDao, GroupRepository groupDao) {
         this.userDao = userDao;
         this.postDao = postDao;
         this.categoriesDao = categoriesDao;
         this.passwordEncoder = passwordEncoder;
         this.friendsDao = friendsDao;
+        this.groupDao = groupDao;
     }
 
     @GetMapping("/signup")
@@ -125,13 +121,27 @@ public class UserController {
 
     @PostMapping("/user/{id}/update")
     public String updatePost(@ModelAttribute Post userToUpdate, @PathVariable String id){
-
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userToUpdate.setId(Long.parseLong(id));
-
         // set the user
         userToUpdate.setOwner(userToAdd);
+        return "redirect:/profile";
+    }
 
+    @GetMapping("/groups/create")
+    public String createGroups(Model model) {
+        model.addAttribute("group", new Group());
+        return "/groups";
+    }
+
+    @PostMapping("/groups/create")
+    public String createGroupsHere(@ModelAttribute Group groupToCreate) {
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // save the group
+        groupDao.save(groupToCreate);
+        // set the user
+        groupToCreate.setCreatedById(Long.parseLong(String.valueOf(userToAdd)));
+        Group savedGroup = groupDao.save(groupToCreate);;
         return "redirect:/profile";
     }
 }
