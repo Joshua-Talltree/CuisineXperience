@@ -72,17 +72,20 @@ public class PostController {
 
     @PostMapping("/posts/{id}/update")
     public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable String id){
-
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postToUpdate.setId(Long.parseLong(id));
-
         // set the user
         postToUpdate.setOwner(userToAdd);
-
         // save the post
         postDao.save(postToUpdate);
-
         return "redirect:/posts";
+    }
+
+    @PostMapping("/posts/search")
+    public String searchPosts(@RequestParam("word") String word, Model vModel) {
+        word = "%" + word + "%";
+        vModel.addAttribute("posts", postDao.findByContentOrTitle(word, word));
+        return "results";
     }
 
 }

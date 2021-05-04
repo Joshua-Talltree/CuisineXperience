@@ -12,7 +12,12 @@
 <!--    <span class="hidden" th:text="${#authentication.principal.id}"/>-->
 <!--    <span class="hidden" th:text="${#authentication.principal.email}"/>-->
 
-
+<div class="container-fluid">
+    <form class="d-flex" th:action="@{'/posts/search'}" method="POST">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+</div>
 <main class="container">
     <h1 class="text-center">See All Posts Here:</h1>
     <br>
