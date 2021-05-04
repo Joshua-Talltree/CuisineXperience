@@ -132,9 +132,6 @@ public class UserController {
         // set the user
         userToUpdate.setOwner(userToAdd);
 
-        // save the post
-        postDao.save(userToUpdate);
-
         return "redirect:/profile";
     }
 }
