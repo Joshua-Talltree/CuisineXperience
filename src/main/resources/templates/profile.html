@@ -30,8 +30,8 @@
     </form>
 </div>
 <ul th:if="${owner != null}">
-    <div th:each="friendsObj : ${friends}">
-        <li th:text="${friendsObj.username}"></li>
+    <div th:each="yourFriends : ${friends}">
+        <li th:text="${yourFriends.username}"></li>
     </div>
 </ul>
 </body>
