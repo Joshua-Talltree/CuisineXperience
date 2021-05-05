@@ -13,4 +13,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByCategoriesEquals(Categories category);
     List<Post> findPostsByCategoriesEquals(Categories category);
     List<Post> findAllByContentContains(String term);
+    Post getOwnerById(Long id);
 }

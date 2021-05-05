@@ -17,20 +17,19 @@ import java.util.List;
 
 @Controller
 public class UserController {
+
     private final UserRepository userDao;
     private final PostRepository postDao;
     private final CategoriesRepository categoriesDao;
     private final PasswordEncoder passwordEncoder;
-    private final FriendsRepository friendsDao;
     private final GroupRepository groupDao;
 
 
-    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, FriendsRepository friendsDao, GroupRepository groupDao) {
+    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, GroupRepository groupDao) {
         this.userDao = userDao;
         this.postDao = postDao;
         this.categoriesDao = categoriesDao;
         this.passwordEncoder = passwordEncoder;
-        this.friendsDao = friendsDao;
         this.groupDao = groupDao;
     }
 
@@ -75,22 +74,22 @@ public class UserController {
         return "profile";
     }
 
-    @GetMapping("/user/friends")
-    public String viewFriends(Model vModel, Long id) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Friends> friendsList = friendsDao.getFriendsById(id);
-        List<User> userList = new ArrayList<User>();
-        for (Friends friend : friendsList) {
-           if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
-               userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
-            } else {
-               userList.add(userDao.findUserById(friend.getUserRecipientId().getId()));
-           }
-        }
-        vModel.addAttribute("friends", userList);
-        vModel.addAttribute("owner", loggedInUser);
-        return "profile";
-    }
+//    @GetMapping("/user/friends")
+//    public String viewFriends(Model vModel, Long id) {
+//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        List<Friends> friendsList = friendsDao.getFriendsById(id);
+//        List<User> userList = new ArrayList<User>();
+//        for (Friends friend : friendsList) {
+//           if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
+//               userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+//            } else {
+//               userList.add(userDao.findUserById(friend.getUserRecipientId().getId()));
+//           }
+//        }
+//        vModel.addAttribute("friends", userList);
+//        vModel.addAttribute("owner", loggedInUser);
+//        return "profile";
+//    }
 
     @GetMapping("/user/admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -120,12 +119,13 @@ public class UserController {
     }
 
     @PostMapping("/user/{id}/update")
-    public String updatePost(@ModelAttribute Post userToUpdate, @PathVariable String id){
-        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        userToUpdate.setId(Long.parseLong(id));
-        // set the user
-        userToUpdate.setOwner(userToAdd);
-        return "redirect:/profile";
+    public String updatePost(@ModelAttribute User userToUpdate, @PathVariable String username){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String hashPass = passwordEncoder.encode(userToUpdate.getPassword());
+        userToUpdate.setPassword(hashPass);
+        userToUpdate.setId(loggedInUser.getId());
+        userDao.save(userToUpdate);
+        return "redirect:/profile/" + userToUpdate.getId();
     }
 
     @GetMapping("/groups/create")
@@ -142,5 +142,13 @@ public class UserController {
         // set the group id
         groupToCreate.setCreatedById(Long.parseLong(String.valueOf(userToAdd)));
         return "redirect:/profile";
+    }
+
+    @GetMapping("user/{id}/images")
+    public String allImagesFromUser(@PathVariable Long id, Model vModel) {
+        List<Post> imagesFromDB = postDao.findAll();
+        vModel.addAttribute("posts", imagesFromDB);
+        vModel.addAttribute("owner", postDao.getOwnerById(id));
+        return "users/images";
     }
 }
