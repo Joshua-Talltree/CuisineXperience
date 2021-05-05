@@ -14,33 +14,46 @@
 
 <div class="container-fluid">
     <form class="d-flex" th:action="@{'/posts/search'}" method="POST">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" type="search" name="word" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 </div>
+<div th:if="${word != null}">
+    <span><h1>Here Are Your Search Results</h1></span>
+    <div th:each="post : ${posts}">
+        <h5 th:text="${post.title}"></h5>
+        <img th:src="${post.imageUrl}" alt="placeholder" src=""/>
+        <p th:text="${post.content}"></p>
+    </div>
+</div>
+<div th:if="${word == null}">
+    <h1>No search term detected</h1>
+</div>
 <main class="container">
-    <h1 class="text-center">See All Posts Here:</h1>
-    <br>
-    <div class="post">
-        <div class="card text-black bg-light mb-3 row" th:each="post : ${posts}" style="max-width: 300rem;">
-            <div sec:authorize="isAuthenticated()" class="card-header">
-                <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
+    <div th:unless="${word != null}">
+        <h1 class="text-center">See All Posts Here:</h1>
+        <br>
+        <div class="post">
+            <div class="card text-black bg-light mb-3 row" th:each="post : ${posts}" style="max-width: 300rem;">
+                <div sec:authorize="isAuthenticated()" class="card-header">
+                    <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <img th:src="${post.imageUrl}" alt="placeholder" src=""/>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" th:text="${post.content}"></p>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-body" th:text="${post.timePosted}"></h5>
+                </div>
+                <button class="btn" type="submit" th:action="@{/logout}" th:method="post">logout</button>
             </div>
-            <div sec:authorize="isAnonymous()">
-                <img th:src="${post.imageUrl}" alt="placeholder" src=""/>
-            </div>
-            <div class="card-body">
-                <p class="card-text" th:text="${post.content}"></p>
-            </div>
-            <div class="card-body">
-                <h5 class="card-body" th:text="${post.timePosted}"></h5>
-            </div>
-            <button class="btn" type="submit" th:action="@{/logout}" th:method="post">logout</button>
         </div>
     </div>
 </main>
 <div>
-<!--    <footer th:replace="posts/footer :: footer"></footer>-->
+    <!--    <footer th:replace="posts/footer :: footer"></footer>-->
 </div>
 </body>
 </html>

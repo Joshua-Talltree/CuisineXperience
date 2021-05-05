@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
 
-<div th:if="${posts}" th:each="postSearch : ${posts}">
-    <h5 th:text="${postSearch.title}"></h5>
-    <img th:if="${postSearch.imageUrl == null}" alt="placeholder" src=""/>
-    <img th:if="${postSearch.imageUrl != null}" alt="placeholder" th:src="${postSearch.imageUrl}">
-    <p th:text="${postSearch.content}"></p>
-</div>
+<!--<div th:if="${posts}" th:each="postSearch : ${posts}">-->
+<!--    <h5 th:text="${postSearch.title}"></h5>-->
+<!--    <img th:if="${postSearch.imageUrl == null}" alt="placeholder" src=""/>-->
+<!--    <img th:if="${postSearch.imageUrl != null}" alt="placeholder" th:src="${postSearch.imageUrl}">-->
+<!--    <p th:text="${postSearch.content}"></p>-->
+<!--</div>-->
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

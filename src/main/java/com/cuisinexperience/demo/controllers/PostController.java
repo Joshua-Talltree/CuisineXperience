@@ -82,9 +82,9 @@ public class PostController {
     }
 
     @PostMapping("/posts/search")
-    public String searchPosts(@RequestParam(value = "word", required = false) String word, Model vModel) {
-        word = "%" + word + "%";
-        vModel.addAttribute("posts", postDao.findByContentOrTitle(word, word));
-        return "results";
+    public String searchPosts(@RequestParam(name = "word") String term, Model vModel) {
+        vModel.addAttribute("posts", postDao.findAllByContentContains(term));
+        vModel.addAttribute("word", term);
+        return "index";
     }
 }
