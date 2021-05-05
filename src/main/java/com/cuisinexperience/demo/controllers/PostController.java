@@ -1,9 +1,11 @@
 package com.cuisinexperience.demo.controllers;
 
 import com.cuisinexperience.demo.models.Categories;
+import com.cuisinexperience.demo.models.Comment;
 import com.cuisinexperience.demo.models.Post;
 import com.cuisinexperience.demo.models.User;
 import com.cuisinexperience.demo.repos.CategoriesRepository;
+import com.cuisinexperience.demo.repos.CommentRepository;
 import com.cuisinexperience.demo.repos.PostRepository;
 import com.cuisinexperience.demo.repos.UserRepository;
 import com.cuisinexperience.demo.services.EmailServices;
@@ -19,26 +21,28 @@ public class PostController {
     private final UserRepository userDao;
     private final PostRepository postDao;
     private final CategoriesRepository categoriesDao;
+    private final CommentRepository commentDao;
     private final EmailServices emailServices;
 
-    public PostController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, EmailServices emailServices) {
+    public PostController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, CommentRepository commentDao, EmailServices emailServices) {
         this.userDao = userDao;
         this.postDao = postDao;
         this.categoriesDao = categoriesDao;
+        this.commentDao = commentDao;
         this.emailServices = emailServices;
     }
 
     @GetMapping("/posts")
-    public String allPosts(Model viewModel) {
+    public String allPosts(Model vModel) {
         List<Post> postsFromDB = postDao.findAll();
-        viewModel.addAttribute("posts", postsFromDB);
+        vModel.addAttribute("posts", postsFromDB);
         return "/index";
     }
 
 
     @GetMapping("/posts/create")
-    public String createPosts(Model model) {
-        model.addAttribute("post", new Post());
+    public String createPosts(Model vModel) {
+        vModel.addAttribute("post", new Post());
         return "/create";
     }
 
@@ -56,11 +60,11 @@ public class PostController {
     }
 
     @GetMapping("/posts/category/{categoryId}")
-    public String showCategory(@PathVariable String categoryId , Model model) {
+    public String showCategory(@PathVariable String categoryId , Model vModel) {
         Categories searchCategories = categoriesDao.getOne(Long.parseLong(categoryId));
 //        List<Post> posts = postDao.findPostsByCategoryAndContainsOwner(searchCategories, userDao.getOne(Long.parseLong(categoryId)));
 //        model.addAttribute("posts", posts);
-        model.addAttribute("categories", categoriesDao.findAll());
+        vModel.addAttribute("categories", categoriesDao.findAll());
         return "index";
     }
 
@@ -86,5 +90,21 @@ public class PostController {
         vModel.addAttribute("posts", postDao.findAllByContentContains(term));
         vModel.addAttribute("word", term);
         return "index";
+    }
+
+    @GetMapping("comment/create")
+    public String showComment(Model vModel) {
+        vModel.addAttribute("comment", new Comment());
+        return "posts/comments";
+    }
+
+    @PostMapping("/comment/create")
+    public String createComment(@ModelAttribute Comment commentToCreate) {
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // save the comment
+        commentDao.save(commentToCreate);
+        // set the user
+        commentToCreate.setUserId(userToAdd);
+        return "redirect:/posts";
     }
 }

@@ -26,9 +26,7 @@
         <p th:text="${post.content}"></p>
     </div>
 </div>
-<div th:if="${word == null}">
-    <h1>No search term detected</h1>
-</div>
+<div th:if="${word == null}"></div>
 <main class="container">
     <div th:unless="${word != null}">
         <h1 class="text-center">See All Posts Here:</h1>
