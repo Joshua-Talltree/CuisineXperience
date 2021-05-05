@@ -29,8 +29,10 @@
         <button type="submit" class="btn btn-success">Update Profile</button>
     </form>
 </div>
-<ul th:each="friendsObj : ${friends}">
-        <li th:text="${friendsObj.id + friendsObj.username}"></li>
+<ul th:if="${owner != null}">
+    <div th:each="friendsObj : ${friends}">
+        <li th:text="${friendsObj.username}"></li>
+    </div>
 </ul>
 </body>
 </html>

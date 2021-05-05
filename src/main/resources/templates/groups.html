@@ -7,14 +7,15 @@
 <body>
 <h2>Create Your Group Here:</h2>
 <br>
-<form th:action="@{/group}" method="POST" th:object="${group}">
+<form th:action="@{/groups/create}" method="POST" th:object="${group}">
     <div>
-        <input class="form-control" type="text" id="username" th:field="*{name}"
-               placeholder="johndoe123"/>
+        <label for="name">Group Name</label>
+        <input class="form-control" type="text" id="name" th:field="*{name}"
+               placeholder="the food group"/>
     </div>
     <div>
-        <input class="form-control" type="text" id="description" th:field="*{description}"
-               placeholder="example@example.com"/>
+        <label for="description">Group Description</label>
+        <input class="form-control" type="text" id="description" th:field="*{description}" placeholder="we love fine dining"/>
     </div>
     <button type="submit" class="btn btn-primary">Create Group</button>
 </form>

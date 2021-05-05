@@ -81,7 +81,7 @@ public class UserController {
         List<Friends> friendsList = friendsDao.getFriendsById(id);
         List<User> userList = new ArrayList<User>();
         for (Friends friend : friendsList) {
-           if (userDao.findUserById(friend.getUserRecipientId().getId()).getId() == loggedInUser.getId()) {
+           if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
             } else {
                userList.add(userDao.findUserById(friend.getUserRecipientId().getId()));
@@ -139,9 +139,8 @@ public class UserController {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // save the group
         groupDao.save(groupToCreate);
-        // set the user
+        // set the group id
         groupToCreate.setCreatedById(Long.parseLong(String.valueOf(userToAdd)));
-        Group savedGroup = groupDao.save(groupToCreate);;
         return "redirect:/profile";
     }
 }
