@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+
 </head>
 <body>
-
+<div>
+    <div th:include="/navbar.html :: navbar"></div>
+</div>
 <h2 class="text-center" th:text="${owner.username + 's Profile'}"></h2>
 <ul>
     <div th:each="category : ${categories}">
