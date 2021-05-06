@@ -4,10 +4,9 @@
     <meta charset="UTF-8"/>
     <title>Sign up</title>
 <body>
-<!--<div>-->
-<!--    <nav th:include="posts/navbar.html :: navbar"></nav>-->
-<!--</div>-->
-
+<div>
+    <div th:include="/navbar.html :: navbar"></div>
+</div>
 <main class="container">
     <th:block th:if="${user.id == null}">
         <h1>Create an account</h1>

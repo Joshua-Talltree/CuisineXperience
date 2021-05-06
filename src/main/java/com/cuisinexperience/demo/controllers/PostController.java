@@ -93,9 +93,9 @@ public class PostController {
     }
 
     @GetMapping("comment/create")
-    public String showComment(Model vModel) {
-        vModel.addAttribute("comment", new Comment());
-        return "posts/comments";
+    public String showCommentForm(Model vModel) {
+        vModel.addAttribute("comments", new Comment());
+        return "/index";
     }
 
     @PostMapping("/comment/create")
@@ -105,6 +105,6 @@ public class PostController {
         commentDao.save(commentToCreate);
         // set the user
         commentToCreate.setUserId(userToAdd);
-        return "redirect:/posts";
+        return "redirect:/index";
     }
 }

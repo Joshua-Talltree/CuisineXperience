@@ -1,33 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>And, Here We Are!</title>
 </head>
 <body>
-<!--<div>-->
-<!--    <nav th:include="posts/navbar.html :: navbar"></nav>-->
-<!--</div>-->
-<div sec:authorize="isAuthenticated()">
-    <h2>Welcome <span th:text="${#authentication.principal.username}"/></h2></div>
-<!--    <span class="hidden" th:text="${#authentication.principal.id}"/>-->
-<!--    <span class="hidden" th:text="${#authentication.principal.email}"/>-->
-
-<div class="container-fluid">
-    <form class="d-flex" th:action="@{'/posts/search'}" method="POST">
-        <input class="form-control me-2" type="search" name="word" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-</div>
-<div th:if="${word != null}">
-    <span><h1>Here Are Your Search Results</h1></span>
-    <div th:each="post : ${posts}">
-        <h5 th:text="${post.title}"></h5>
-        <img th:src="${post.imageUrl}" alt="placeholder" src=""/>
-        <p th:text="${post.content}"></p>
+<div th:include="/navbar.html :: navbar"></div>
+    <div sec:authorize="isAuthenticated()">
+        <h2>Welcome <span th:text="${#authentication.principal.username}"></span></h2></div>
+    <div class="container-fluid">
+        <form class="d-flex" th:action="@{'/posts/search'}" method="POST">
+            <input class="form-control me-2" type="search" name="word" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
     </div>
-</div>
-<div th:if="${word == null}"></div>
-<main class="container">
+    <div th:if="${word != null}">
+        <span><h1>Here Are Your Search Results</h1></span>
+        <div th:each="post : ${posts}">
+            <h5 th:text="${post.title}"></h5>
+            <img th:src="${post.imageUrl}" alt="placeholder" src=""/>
+            <p th:text="${post.content}"></p>
+        </div>
+    </div>
+    <div th:if="${word == null}"></div>
     <div th:unless="${word != null}">
         <h1 class="text-center">See All Posts Here:</h1>
         <br>
@@ -45,7 +40,22 @@
                 <div class="card-body">
                     <h5 class="card-body" th:text="${post.timePosted}"></h5>
                 </div>
-                <button class="btn" type="submit" th:action="@{/logout}" th:method="post">logout</button>
+                <div>
+                    <ul th:each="postComment : ${comments}">
+                        <li th:href="@{/comment/__${post.id}__}" th:text="${postComment.comment}"></li>
+                        <li th:text="${postComment.timeSent}"></li>
+                    </ul>
+                </div>
+                <form th:action="@{/comment/create}" th:method="POST">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="comment">Comment:</label>
+                            <br>
+                            <textarea class="form-control" id="comment" placeholder="Comment here"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Comment</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
