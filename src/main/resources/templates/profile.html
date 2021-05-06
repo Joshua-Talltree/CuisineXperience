@@ -29,10 +29,10 @@
         <button type="submit" class="btn btn-success">Update Profile</button>
     </form>
 </div>
-<ul th:if="${owner != null}">
+<div th:if="${owner != null}">
     <div th:each="yourFriends : ${friends}">
-        <li th:text="${yourFriends.username}"></li>
+        <p th:text="${yourFriends.username}"></p>
     </div>
-</ul>
+</div>
 </body>
 </html>
