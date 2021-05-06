@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h2 th:text="${owner.id + 's Image Gallery'}"></h2>
+<h2 th:text="${owner.username + 's Image Gallery'}"></h2>
 <br>
 <div th:each="photos : ${posts}">
     <img th:if="${photos.imageUrl != null}" th:src="${photos.imageUrl}" alt="placeholder" src=""/>

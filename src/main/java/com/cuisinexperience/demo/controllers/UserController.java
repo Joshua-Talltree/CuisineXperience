@@ -144,11 +144,12 @@ public class UserController {
         return "redirect:/profile";
     }
 
-    @GetMapping("user/{id}/images")
-    public String allImagesFromUser(@PathVariable Long id, Model vModel) {
+    @GetMapping("user/{ownerId}/images")
+    public String allImagesFromUser(@PathVariable Long ownerId, Model vModel) {
         List<Post> imagesFromDB = postDao.findAll();
+        List<Post> posts = postDao.findPostsByOwnerId(ownerId);
         vModel.addAttribute("posts", imagesFromDB);
-        vModel.addAttribute("owner", postDao.getOwnerById(id));
+        vModel.addAttribute("owner", userDao.getOne(ownerId));
         return "users/images";
     }
 }
