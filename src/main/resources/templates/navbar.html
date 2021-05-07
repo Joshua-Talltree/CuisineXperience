@@ -19,7 +19,7 @@
             <div sec:authorize="isAnonymous()">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <form class="nav-link" th:action="${'/sign-up'}">
+                        <form class="nav-link" th:action="${'/signup'}">
                             <button class="btn-link btn">Sign Up</button>
                         </form>
                     </li>
@@ -39,17 +39,17 @@
                             </form>
                         </li>
                         <li class="nav-item active">
+                            <form class="nav-link" th:action="@{/groups/create}">
+                                <button class="btn-link btn">Create A Group</button>
+                            </form>
+                        </li>
+                        <li class="nav-item active">
                             <form class="nav-link" th:action="@{/logout}" th:method="post">
                                 <button class="btn-link btn">Logout</button>
                             </form>
                         </li>
                     </ul>
                 </div>
-                <form action="/posts/search" method="get" class="form-inline my-2 my-lg-0">
-                    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search"
-                           aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>

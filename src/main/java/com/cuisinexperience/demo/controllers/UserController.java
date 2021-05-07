@@ -135,12 +135,12 @@ public class UserController {
     }
 
     @PostMapping("/groups/create")
-    public String createGroupsHere(@ModelAttribute Group groupToCreate) {
+    public String createGroupsHere(@ModelAttribute Group groupToCreate, String createdById) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // save the group
         groupDao.save(groupToCreate);
         // set the group id
-        groupToCreate.setCreatedById(Long.parseLong(String.valueOf(userToAdd)));
+        groupToCreate.setName(String.valueOf(userToAdd));
         return "redirect:/profile";
     }
 

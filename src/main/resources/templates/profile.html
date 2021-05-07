@@ -36,6 +36,10 @@
     <div th:each="yourFriends : ${friends}">
         <p th:text="${yourFriends.username}"></p>
     </div>
+    <div th:if="${group != null}">
+        <div th:each="yourGroups : ${group}"></div>
+        <p th:text="${yourGroups.name}"></p>
+    </div>
 </div>
 </body>
 </html>
