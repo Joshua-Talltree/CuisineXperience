@@ -96,6 +96,12 @@ public class PostController {
         return "index";
     }
 
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@PathVariable Long id) {
+        postDao.deleteById(id);
+        return "redirect:/profile";
+    }
+
     @GetMapping("comment/create")
     public String showCommentForm(Model vModel) {
         vModel.addAttribute("comments", new Comment());
@@ -103,12 +109,14 @@ public class PostController {
     }
 
     @PostMapping("/comment/create")
-    public String createComment(@ModelAttribute Comment commentToCreate) {
+    public String createComment(@ModelAttribute(name = "comment") String commentBody, @ModelAttribute(name = "postId") Long id) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Comment commentToCreate = new Comment();
+        commentToCreate.setComment(commentBody);
+        commentToCreate.setPost(postDao.getOne(id));
+        commentToCreate.setUserId(userToAdd);
         // save the comment
         commentDao.save(commentToCreate);
-        // set the user
-        commentToCreate.setUserId(userToAdd);
-        return "redirect:/index";
+        return "redirect:/posts";
     }
 }

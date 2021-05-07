@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<head th:replace="/header.html :: header">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div>
+    <div th:include="/navbar.html :: navbar"></div>
+</div>
+<main class="container">
+<div>
     <p>Welcome Administrator</p>
-    <p sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/logout}">Logout</a></p>
+    <p sec:authorize="hasRole('ROLE_ADMIN')"></p>
 </div>
 <div>
     <h5>List of Users</h5>
+    <br>
     <ul th:each="user : ${users}">
         <li th:text="${user.id} + ${user.username}"></li>
         <form th:action="${'/user/' + user.id + '/delete'}" th:method="post">
@@ -19,5 +24,6 @@
     </ul>
 
 </div>
+</main>
 </body>
 </html>
