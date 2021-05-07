@@ -56,6 +56,8 @@ public class UserController {
         for (Post post : posts) {
             post.getCategories().stream().filter(category -> !categories.contains(category)).forEach(categories::add);
         }
+        List<Group> groups = groupDao.findAllByCreatedById(ownerId);
+        vModel.addAttribute("groups", groups);
         vModel.addAttribute("owner", userDao.getOne(ownerId));
         vModel.addAttribute("categories", categories);
 
@@ -137,11 +139,12 @@ public class UserController {
     @PostMapping("/groups/create")
     public String createGroupsHere(@ModelAttribute Group groupToCreate, String createdById) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        groupToCreate.setCreatedById(userToAdd.getId());
         // save the group
         groupDao.save(groupToCreate);
         // set the group id
         groupToCreate.setName(String.valueOf(userToAdd));
-        return "redirect:/profile";
+        return "redirect:/profile/" + userToAdd.getId();
     }
 
     @GetMapping("user/{ownerId}/images")

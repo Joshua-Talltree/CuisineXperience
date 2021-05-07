@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="/header.html :: header">
     <meta charset="UTF-8">
     <title></title>
 
@@ -17,29 +17,32 @@
         </li>
     </div>
 </ul>
-<div th:each="item : ${posts}">
-    <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
-    <div class="card-body"></div>
-    <h4 th:text="${item.title}"></h4>
-    <p th:text="${item.content}"></p>
-    <a th:href="${'/posts/' + item.id}">
-        <button type="submit" class="btn btn-primary">View Post</button>
-    </a>
-    <form th:action="${'/posts/' + item.id + '/update'}" method="get">
-        <button type="submit" class="btn btn-success">Update</button>
-    </form>
-    <form th:action="${'/user/' + item.id + '/update'}" method="get">
-        <button type="submit" class="btn btn-success">Update Profile</button>
-    </form>
-</div>
-<div th:if="${owner != null}">
-    <div th:each="yourFriends : ${friends}">
-        <p th:text="${yourFriends.username}"></p>
+<main class="container">
+    <div th:each="item : ${posts}">
+        <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
+        <div class="card-body"></div>
+        <h4 th:text="${item.title}"></h4>
+        <p th:text="${item.content}"></p>
+        <a th:href="${'/posts/' + item.id}">
+            <button type="submit" class="btn btn-primary">View Post</button>
+        </a>
+        <form th:action="${'/posts/' + item.id + '/update'}" method="get">
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
+        <form th:action="${'/user/' + item.id + '/update'}" method="get">
+            <button type="submit" class="btn btn-success">Update Profile</button>
+        </form>
     </div>
-    <div th:if="${group != null}">
-        <div th:each="yourGroups : ${group}"></div>
-        <p th:text="${yourGroups.name}"></p>
+    <div th:if="${owner != null}">
+        <div th:each="yourFriends : ${friends}">
+            <p th:text="${yourFriends.username}"></p>
+        </div>
+        <div th:if="${groups != null}">
+            <div th:each="yourGroups : ${groups}">
+                <p th:text="${yourGroups.name}"></p>
+            </div>
+        </div>
     </div>
-</div>
+</main>
 </body>
 </html>

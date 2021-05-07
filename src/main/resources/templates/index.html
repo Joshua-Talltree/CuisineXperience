@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<head th:replace="/header.html :: header">
     <title>And, Here We Are!</title>
 </head>
 <body>
 <div th:include="/navbar.html :: navbar"></div>
     <div sec:authorize="isAuthenticated()">
         <h2>Welcome <span th:text="${#authentication.principal.username}"></span></h2></div>
-    <div class="container-fluid">
-        <form class="d-flex" th:action="@{'/posts/search'}" method="POST">
-            <input class="form-control me-2" type="search" name="word" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
+<main class="container">
     <div th:if="${word != null}">
         <span><h1>Here Are Your Search Results</h1></span>
         <div th:each="post : ${posts}">
@@ -51,7 +46,8 @@
                         <div class="mb-3">
                             <label for="comment">Comment:</label>
                             <br>
-                            <textarea class="form-control" id="comment" placeholder="Comment here"></textarea>
+                            <textarea class="form-control" name="comment" id="comment" placeholder="Comment here"></textarea>
+                            <input type="hidden" name="postId" th:value="${post.id}">
                         </div>
                         <button type="submit" class="btn btn-primary">Comment</button>
                     </div>
