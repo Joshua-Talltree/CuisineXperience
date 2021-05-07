@@ -38,7 +38,11 @@ public class PostController {
         vModel.addAttribute("posts", postsFromDB);
         return "/index";
     }
-
+    @GetMapping("/posts/{id}")
+    public String individualPosts(@PathVariable Long id, Model vModel) {
+        vModel.addAttribute("post", postDao.getOne(id));
+        return "/show";
+    }
 
     @GetMapping("/posts/create")
     public String createPosts(Model vModel) {

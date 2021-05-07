@@ -10,11 +10,13 @@
 <form th:action="@{/groups/create}" method="POST" th:object="${group}">
     <div>
         <label for="name">Group Name</label>
+        <br>
         <input class="form-control" type="text" id="name" th:field="*{name}"
                placeholder="the food group"/>
     </div>
     <div>
         <label for="description">Group Description</label>
+        <br>
         <input class="form-control" type="text" id="description" th:field="*{description}" placeholder="we love fine dining"/>
     </div>
     <button type="submit" class="btn btn-primary">Create Group</button>
