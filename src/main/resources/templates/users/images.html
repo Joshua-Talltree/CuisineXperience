@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="/header.html :: header">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
-<h2 th:text="${owner.username + 's Image Gallery'}"></h2>
-<br>
-<div th:each="photos : ${posts}">
-    <img th:if="${photos.imageUrl != null}" th:src="${photos.imageUrl}" alt="placeholder" src=""/>
+<div>
+    <div th:include="/navbar.html :: navbar"></div>
 </div>
-
+<h2 style="text-align: center;" th:text="${owner.username + 's Image Gallery'}"></h2>
+<br>
+<div class="container">
+    <div class="row col-12">
+        <div th:each="photos : ${posts}">
+            <img th:if="${photos.imageUrl != null}" th:src="${photos.imageUrl}" class="rounded float-start"
+                 style="max-width: 500px; max-height: 500px"
+                 alt="placeholder" src=""/>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+
