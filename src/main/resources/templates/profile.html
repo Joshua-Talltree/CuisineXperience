@@ -26,6 +26,7 @@
         <a th:href="${'/posts/' + item.id}">
             <button type="submit" class="btn btn-primary">View Post</button>
         </a>
+
         <form th:action="${'/posts/' + item.id + '/update'}" method="get">
             <button type="submit" class="btn btn-success">Update</button>
         </form>

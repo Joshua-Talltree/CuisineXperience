@@ -35,11 +35,12 @@
                 <div class="card-body">
                     <h5 class="card-body" th:text="${post.timePosted}"></h5>
                 </div>
-                <div>
-                    <ul th:each="postComment : ${comments}">
-                        <li th:href="@{/comment/__${post.id}__}" th:text="${postComment.comment}"></li>
-                        <li th:text="${postComment.timeSent}"></li>
-                    </ul>
+                <div class="card-body">
+                    <div th:each="postComment : ${comments}">
+                        <a th:text="${postComment.userId}"></a>
+                        <a th:text="${postComment.comment}"></a>
+                        <a th:text="${postComment.timeSent}"></a>
+                    </div>
                 </div>
                 <form th:action="@{/comment/create}" th:method="POST">
                     <div class="card-body">
