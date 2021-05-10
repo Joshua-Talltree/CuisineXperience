@@ -36,10 +36,10 @@
                     <h5 class="card-body" th:text="${post.timePosted}"></h5>
                 </div>
                 <div class="card-body">
-                    <div th:each="postComment : ${comments}">
-                        <a th:text="${postComment.userId}"></a>
-                        <a th:text="${postComment.comment}"></a>
-                        <a th:text="${postComment.timeSent}"></a>
+                    <div th:each="postComments : ${comments}">
+                        <a th:text="${postComments.userId}"></a>
+                        <a th:text="${postComments.comment}"></a>
+                        <a th:text="${postComments.timeSent}"></a>
                     </div>
                 </div>
                 <form th:action="@{/comment/create}" th:method="POST">

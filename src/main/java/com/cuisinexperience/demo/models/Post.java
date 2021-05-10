@@ -1,5 +1,6 @@
 package com.cuisinexperience.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -35,7 +36,6 @@ public class Post {
     private String content;
 
 
-
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "time_posted")
@@ -48,14 +48,22 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User owner;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)
+    @JsonBackReference
+    private List <Comment> comment;
+
+
     public Post() {
     }
 
-    public Post(String title, String content, String imageUrl, User owner) {
+    public Post(String title, List<Categories> categories, String content, Date timePosted, String imageUrl, User owner, List<Comment> comment) {
         this.title = title;
+        this.categories = categories;
         this.content = content;
+        this.timePosted = timePosted;
         this.imageUrl = imageUrl;
         this.owner = owner;
+        this.comment = comment;
     }
 
     public Long getId() {
@@ -113,4 +121,11 @@ public class Post {
         this.categories = categories;
     }
 
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
 }

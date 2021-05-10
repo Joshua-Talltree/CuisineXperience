@@ -9,15 +9,18 @@
 <div>
     <div th:include="/navbar.html :: navbar"></div>
 </div>
-<h2 class="text-center" th:text="${owner.username + 's Profile'}"></h2>
-<ul>
-    <div th:each="category : ${categories}">
-        <li>
-            <a th:href="${'/profile/' + owner.id + '/category/' + category.id}"><span th:text="${category.name}"></span></a>
-        </li>
-    </div>
-</ul>
-<main class="container">
+<div class="container col-3">
+    <h2 class="text-center" th:text="${owner.username + 's Profile'}"></h2>
+    <ul>
+        <div th:each="category : ${categories}">
+            <li>
+                <a th:href="${'/profile/' + owner.id + '/category/' + category.id}"><span
+                        th:text="${category.name}"></span></a>
+            </li>
+        </div>
+    </ul>
+</div>
+<main class="container col-6">
     <div th:each="item : ${posts}">
         <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
         <div class="card-body"></div>
@@ -34,13 +37,15 @@
             <button type="submit" class="btn btn-success">Update Profile</button>
         </form>
     </div>
-    <div th:if="${owner != null}">
-        <div th:each="yourFriends : ${friends}">
-            <p th:text="${yourFriends.username}"></p>
-        </div>
-        <div th:if="${groups != null}">
-            <div th:each="yourGroups : ${groups}">
-                <p th:text="${yourGroups.name}"></p>
+    <div class="container col-10">
+        <div th:if="${owner != null}">
+            <div th:each="yourFriends : ${friends}">
+                <p th:text="${yourFriends.username}"></p>
+            </div>
+            <div th:if="${groups != null}">
+                <div th:each="yourGroups : ${groups}">
+                    <p th:text="${yourGroups.name}"></p>
+                </div>
             </div>
         </div>
     </div>

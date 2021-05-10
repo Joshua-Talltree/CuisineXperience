@@ -117,7 +117,7 @@ public class UserController {
     @GetMapping("/user/{id}/update")
     public String updateUserForm(Model model, @PathVariable Long id){
         model.addAttribute("user", userDao.getOne(id));
-        return "signup";
+        return "/signup";
     }
 
     @PostMapping("/user/{id}/update")
