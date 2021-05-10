@@ -34,6 +34,10 @@ public class Friends {
         this.status = status;
     }
 
+    public Friends(User principal, User one, FriendshipStatus pending) {
+    }
+
+
     public Long getId() {
         return id;
     }

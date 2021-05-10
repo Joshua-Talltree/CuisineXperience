@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/header.html :: header">
+    <title></title>
 </head>
 <body>
-
+<div th:include="/navbar.html :: navbar"></div>
+<!--<div>-->
+<!--    <th:block th:if="${owner.status != FriendshipStatus.ACCEPTED}">-->
+<!--        <button id="accept" class="btn btn-floating"><i class="material-icons" th:alt="accept">check</i> Accept</button>-->
+<!--        <button id="reject" class="btn btn-floating amber darken-3"><i class="material-icons" th:alt="reject">cancel</i> Reject</button>-->
+<!--    </th:block>-->
+<!--    <button th:if="${friends.status == T(FriendshipStatus).ACCEPTED}" id="remove" class="btn btn-floating red darken-1"><i class="material-icons" th:alt="remove">delete</i> Remove</button>-->
+<!--</div>-->
 </body>
 </html>
