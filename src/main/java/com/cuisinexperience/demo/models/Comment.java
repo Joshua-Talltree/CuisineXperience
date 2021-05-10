@@ -15,7 +15,8 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "id")
+    @JsonManagedReference
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
     private Post post;
 
     @Column(name = "comment", columnDefinition = "TEXT", length = 3000, nullable = false)

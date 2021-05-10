@@ -1,9 +1,6 @@
 package com.cuisinexperience.demo.controllers;
 
-import com.cuisinexperience.demo.models.Categories;
-import com.cuisinexperience.demo.models.Comment;
-import com.cuisinexperience.demo.models.Post;
-import com.cuisinexperience.demo.models.User;
+import com.cuisinexperience.demo.models.*;
 import com.cuisinexperience.demo.repos.CategoriesRepository;
 import com.cuisinexperience.demo.repos.CommentRepository;
 import com.cuisinexperience.demo.repos.PostRepository;
@@ -40,6 +37,9 @@ public class PostController {
     }
     @GetMapping("/posts/{id}")
     public String individualPosts(@PathVariable Long id, Model vModel) {
+
+//        List<Comment> comments = commentDao.findCommentByIdAndPost(id);
+//        vModel.addAttribute("comment", comments);
         vModel.addAttribute("post", postDao.getOne(id));
         return "/show";
     }
