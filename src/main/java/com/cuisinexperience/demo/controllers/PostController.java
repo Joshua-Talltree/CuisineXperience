@@ -119,4 +119,22 @@ public class PostController {
         commentDao.save(commentToCreate);
         return "redirect:/posts";
     }
+
+    @GetMapping("/post/liked")
+    public String likePost(Model vModel) {
+        vModel.addAttribute("liked", new Post());
+        return "/index";
+    }
+
+    @PostMapping("post/liked")
+    public String postLiked(@ModelAttribute(name = "post_liked") User post_liked, @ModelAttribute(name = "userId") Long userId, @ModelAttribute(name = "postId") Long postId) {
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Post postToLike = new Post();
+        postToLike.setOwner(post_liked);
+        postToLike.setId(postId);
+        postToLike.setOwner(userToAdd);
+        //save liked post
+        postDao.save(postToLike);
+        return "redirect:/posts";
+    }
 }

@@ -44,7 +44,6 @@ public class FriendsController {
 
     @GetMapping("user/{id}/friend-request")
     public void friendRequestSent(@PathVariable Long id) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        friendsDao.save(new Friends(loggedInUser.getUserSenderId(), userDao.getOne(id), FriendshipStatus.PENDING));
+        friendsDao.save(new Friends((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), userDao.getOne(id), FriendshipStatus.PENDING));
     }
 }
