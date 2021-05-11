@@ -52,11 +52,14 @@ public class Post {
     @JsonBackReference
     private List <Comment> comment;
 
+    @ManyToMany(mappedBy = "posts")
+    private List<User> usersLiked;
+
 
     public Post() {
     }
 
-    public Post(String title, List<Categories> categories, String content, Date timePosted, String imageUrl, User owner, List<Comment> comment) {
+    public Post(String title, List<Categories> categories, String content, Date timePosted, String imageUrl, User owner, List<Comment> comment, List<User> usersLiked) {
         this.title = title;
         this.categories = categories;
         this.content = content;
@@ -64,6 +67,7 @@ public class Post {
         this.imageUrl = imageUrl;
         this.owner = owner;
         this.comment = comment;
+        this.usersLiked = usersLiked;
     }
 
     public Long getId() {
@@ -127,5 +131,13 @@ public class Post {
 
     public void setComment(List<Comment> comment) {
         this.comment = comment;
+    }
+
+    public List<User> getUsersLiked() {
+        return usersLiked;
+    }
+
+    public void setUsersLiked(List<User> usersLiked) {
+        this.usersLiked = usersLiked;
     }
 }
