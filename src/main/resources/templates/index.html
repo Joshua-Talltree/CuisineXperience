@@ -56,6 +56,10 @@
                         <button type="submit" class="btn btn-primary">Comment</button>
                     </div>
                 </form>
+                <form th:action="@{/post/liked}" method="post">
+                    <input type="hidden" name="postId" th:value="${post.id}">
+                    <button type="submit" class="btn btn-success">Like</button>
+                </form>
             </div>
         </div>
     </div>

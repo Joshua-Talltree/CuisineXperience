@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,6 +36,7 @@ public class PostController {
         vModel.addAttribute("posts", postsFromDB);
         return "/index";
     }
+
     @GetMapping("/posts/{id}")
     public String individualPosts(@PathVariable Long id, Model vModel) {
 
@@ -59,12 +61,12 @@ public class PostController {
         // set the user
         postToCreate.setOwner(userToAdd);
         Post savedPost = postDao.save(postToCreate);
-        emailServices.prepareAndSend(savedPost,"Here is the title", "Here is the body");
+        emailServices.prepareAndSend(savedPost, "Here is the title", "Here is the body");
         return "redirect:/posts";
     }
 
     @GetMapping("/posts/category/{categoryId}")
-    public String showCategory(@PathVariable String categoryId , Model vModel) {
+    public String showCategory(@PathVariable String categoryId, Model vModel) {
         Categories searchCategories = categoriesDao.getOne(Long.parseLong(categoryId));
 //        List<Post> posts = postDao.findPostsByCategoryAndContainsOwner(searchCategories, userDao.getOne(Long.parseLong(categoryId)));
 //        model.addAttribute("posts", posts);
@@ -73,13 +75,13 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}/update")
-    public String updatePostForm(Model model, @PathVariable Long id){
+    public String updatePostForm(Model model, @PathVariable Long id) {
         model.addAttribute("post", postDao.getOne(id));
         return "create";
     }
 
     @PostMapping("/posts/{id}/update")
-    public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable String id){
+    public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable String id) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postToUpdate.setId(Long.parseLong(id));
         // set the user
@@ -120,21 +122,44 @@ public class PostController {
         return "redirect:/posts";
     }
 
-    @GetMapping("/post/liked")
-    public String likePost(Model vModel) {
-        vModel.addAttribute("liked", new Post());
-        return "/index";
-    }
+//    @GetMapping("/post/liked")
+//    public String likePost(Model vModel) {
+//        vModel.addAttribute("liked", new Post());
+//        return "/index";
+//    }
 
     @PostMapping("post/liked")
-    public String postLiked(@ModelAttribute(name = "post_liked") User post_liked, @ModelAttribute(name = "userId") Long userId, @ModelAttribute(name = "postId") Long postId) {
+    public String postLiked(@ModelAttribute(name = "postId") Long postId) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Post postToLike = new Post();
-        postToLike.setOwner(post_liked);
-        postToLike.setId(postId);
-        postToLike.setOwner(userToAdd);
-        //save liked post
+        Post postToLike = postDao.getOne(postId);
+        userToAdd = userDao.getOne(userToAdd.getId());
+
+        postDao.getOne(postId);
+
+        List<User> currentLikes = new ArrayList<>();
+
+        if (postToLike.getUsersLiked() != null) {
+            currentLikes = postToLike.getUsersLiked();
+        }
+
+        currentLikes.add(userToAdd);
+        postToLike.setUsersLiked(currentLikes);
+
+        //save posts
         postDao.save(postToLike);
+
+        List<Post> posts = new ArrayList<>();
+
+        if (userToAdd.getPosts() != null) {
+            posts = userToAdd.getPosts();
+        }
+
+        posts.add(postToLike);
+        userToAdd.setPosts(posts);
+
+        //save user
+        userDao.save(userToAdd);
+
         return "redirect:/posts";
     }
 }
