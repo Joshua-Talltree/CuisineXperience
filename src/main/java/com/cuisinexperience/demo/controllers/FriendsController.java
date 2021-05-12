@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,37 @@ public class FriendsController {
         friend.setUserSenderId(loggedInUser);
         friend.setStatus(FriendshipStatus.PENDING);
         friendsDao.save(friend);
+
+        return "redirect:/profile/" + id;
+    }
+
+    @PostMapping("/user/{id}/friend-approval")
+    public String friendApproval(@PathVariable Long id, @RequestParam(name = "approvalId") Long approvalId) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        loggedInUser = userDao.getOne(loggedInUser.getId());
+        if (loggedInUser.getId().equals(id) && approvalId == null) {
+            return "redirect:/profile/" + id;
+        }
+
+        Friends approval = friendsDao.getAllByUserRecipientIdAndUserSenderId(loggedInUser, userDao.getOne(approvalId)).get(0);
+        approval.setStatus(FriendshipStatus.ACCEPTED);
+        friendsDao.save(approval);
+
+        return "redirect:/profile/" + id;
+    }
+
+    @PostMapping("/user/{id}/friend-reject")
+    public String friendReject(@PathVariable Long id, @RequestParam(name = "rejectId") Long rejectId) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        loggedInUser = userDao.getOne(loggedInUser.getId());
+        if (loggedInUser.getId().equals(id) && rejectId == null) {
+            return "redirect:/profile/" + id;
+        }
+
+
+        Friends rejected = friendsDao.getAllByUserRecipientIdAndUserSenderId(loggedInUser, userDao.getOne(rejectId)).get(0);
+        rejected.setStatus(FriendshipStatus.REJECTED);
+        friendsDao.save(rejected);
 
         return "redirect:/profile/" + id;
     }

@@ -9,4 +9,5 @@ import java.util.List;
 public interface FriendsRepository extends JpaRepository<Friends, Long> {
     List<Friends> getFriendsById(Long id);
     List<Friends> getAllByUserRecipientIdOrUserSenderId(User recipientId, User senderId);
+    List<Friends> getAllByUserRecipientIdAndUserSenderId(User recipientId, User senderId);
 }
