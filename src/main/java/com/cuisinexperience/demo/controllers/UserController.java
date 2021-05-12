@@ -61,17 +61,22 @@ public class UserController {
         }
         List<Group> groups = groupDao.findAllByCreatedById(ownerId);
 
-        List<Friends> friendsList = friendsDao.getFriendsById(ownerId);
-        List<Friends> pending = new ArrayList<>();
+        List<Friends> friendsList = friendsDao.getAllByUserRecipientIdOrUserSenderId(userDao.getOne(ownerId), userDao.getOne(ownerId));
+        System.out.println("friendsList = " + friendsList);
+        List<User> pending = new ArrayList<>();
         List<User> userList = new ArrayList<>();
         // filter out your id as a friend on your friends list
         for (Friends friend : friendsList) {
             if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
                 userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
-            } else if (friend.getStatus().ACCEPTED) {
-
+            } else if (friend.getStatus() == FriendshipStatus.valueOf("ACCEPTED")) {
+                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+            } else if (friend.getStatus() == FriendshipStatus.valueOf("PENDING")) {
+                pending.add(userDao.findUserById(friend.getUserSenderId().getId()));
             }
         }
+//        pending.add(userDao.getOne(2L));
+        vModel.addAttribute("pending", pending);
         vModel.addAttribute("friends", userList);
         vModel.addAttribute("owner", loggedInUser);
         vModel.addAttribute("groups", groups);
