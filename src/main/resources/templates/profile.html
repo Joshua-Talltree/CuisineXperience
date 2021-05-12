@@ -12,6 +12,10 @@
 <main class="container row">
     <div class="col">
         <h2 class="text-center" th:text="${owner.username + 's Profile'}"></h2>
+        <form th:action="${'/user/' + owner.id + '/friend-request/'}" method="POST">
+            <button>Friend Me</button>
+<!--            <input type="hidden" th:value="${owner.id}" name="friend">-->
+        </form>
         <ul>
             <div th:each="category : ${categories}">
                 <li>
