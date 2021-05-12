@@ -62,7 +62,7 @@
             </div>
         </div>
     </div>
-    <div class="col-">
+    <div class="col-3">
         <div th:if="${owner != null}">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
@@ -81,6 +81,16 @@
                 <ul th:if="${pending != null}" class="list-group list-group-flush">
                     <div th:each="pendingList : ${pending}">
                         <li th:text="${pendingList.username}" class="list-group-item"></li>
+                        <div>
+                            <form th:action="${'/user/' + owner.id + '/friend-approval/'}" method="POST">
+                                <button type="submit" class="btn btn-success">Accept</button>
+                                <input type="hidden" name="approvalId" th:value="${pendingList.id}">
+                            </form>
+                            <form th:action="${'/user/' + owner.id + '/friend-reject/'}" method="POST">
+                                <button type="submit" class="btn btn-danger">Reject</button>
+                                <input type="hidden" name="rejectId" th:value="${pendingList.id}">
+                            </form>
+                        </div>
                     </div>
                 </ul>
             </div>

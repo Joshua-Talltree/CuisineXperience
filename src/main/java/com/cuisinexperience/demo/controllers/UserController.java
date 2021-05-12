@@ -67,12 +67,17 @@ public class UserController {
         List<User> userList = new ArrayList<>();
         // filter out your id as a friend on your friends list
         for (Friends friend : friendsList) {
-            if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
-                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
-            } else if (friend.getStatus() == FriendshipStatus.valueOf("ACCEPTED")) {
-                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+//            if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
+//                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+            if (friend.getStatus() == FriendshipStatus.valueOf("ACCEPTED")) {
+                if (friend.getUserSenderId().getId().equals(ownerId)) {userList.add(friend.getUserRecipientId());
+                } else {
+                    userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+                }
             } else if (friend.getStatus() == FriendshipStatus.valueOf("PENDING")) {
-                pending.add(userDao.findUserById(friend.getUserSenderId().getId()));
+                if (friend.getUserRecipientId().getId().equals(ownerId)) {
+                    pending.add(userDao.findUserById(friend.getUserSenderId().getId()));
+                }
             }
         }
 //        pending.add(userDao.getOne(2L));
@@ -161,3 +166,14 @@ public class UserController {
         return "users/images";
     }
 }
+
+//    @GetMapping("/profile")
+//    public String showUserProfile(Model model){
+//        User user = new User();
+//        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+//            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//            model.addAttribute("user", user);
+//        }
+//        return "redirect:/pro/" + user.getId();
+//    }
+//}
