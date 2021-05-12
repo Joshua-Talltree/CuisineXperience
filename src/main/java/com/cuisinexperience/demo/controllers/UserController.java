@@ -23,14 +23,16 @@ public class UserController {
     private final CategoriesRepository categoriesDao;
     private final PasswordEncoder passwordEncoder;
     private final GroupRepository groupDao;
+    private final FriendsRepository friendsDao;
 
 
-    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, GroupRepository groupDao) {
+    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, GroupRepository groupDao, FriendsRepository friendsDao) {
         this.userDao = userDao;
         this.postDao = postDao;
         this.categoriesDao = categoriesDao;
         this.passwordEncoder = passwordEncoder;
         this.groupDao = groupDao;
+        this.friendsDao = friendsDao;
     }
 
     @GetMapping("/signup")
@@ -49,6 +51,7 @@ public class UserController {
 
     @GetMapping("profile/{ownerId}")
     public String showProfile(Model vModel, @PathVariable Long ownerId) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Post> posts = postDao.findPostsByOwnerId(ownerId);
         vModel.addAttribute("posts", posts);
 
@@ -57,6 +60,20 @@ public class UserController {
             post.getCategories().stream().filter(category -> !categories.contains(category)).forEach(categories::add);
         }
         List<Group> groups = groupDao.findAllByCreatedById(ownerId);
+
+        List<Friends> friendsList = friendsDao.getFriendsById(ownerId);
+        List<Friends> pending = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
+        // filter out your id as a friend on your friends list
+        for (Friends friend : friendsList) {
+            if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
+                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+            } else if (friend.getStatus().ACCEPTED) {
+
+            }
+        }
+        vModel.addAttribute("friends", userList);
+        vModel.addAttribute("owner", loggedInUser);
         vModel.addAttribute("groups", groups);
         vModel.addAttribute("owner", userDao.getOne(ownerId));
         vModel.addAttribute("categories", categories);
@@ -75,23 +92,6 @@ public class UserController {
         vModel.addAttribute("category", categoriesDao.findAll());
         return "profile";
     }
-
-//    @GetMapping("/user/friends")
-//    public String viewFriends(Model vModel, Long id) {
-//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        List<Friends> friendsList = friendsDao.getFriendsById(id);
-//        List<User> userList = new ArrayList<User>();
-//        for (Friends friend : friendsList) {
-//           if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
-//               userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
-//            } else {
-//               userList.add(userDao.findUserById(friend.getUserRecipientId().getId()));
-//           }
-//        }
-//        vModel.addAttribute("friends", userList);
-//        vModel.addAttribute("owner", loggedInUser);
-//        return "profile";
-//    }
 
     @GetMapping("/user/admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

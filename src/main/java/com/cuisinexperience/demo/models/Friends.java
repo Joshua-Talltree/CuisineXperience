@@ -22,20 +22,19 @@ public class Friends {
     @JsonManagedReference
     private User userRecipientId;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private FriendshipStatus status;
 
     public Friends() {
     }
 
-    public Friends(User userSenderId, User userRecipientId, String status) {
+    public Friends(User userSenderId, User userRecipientId, FriendshipStatus status) {
         this.userSenderId = userSenderId;
         this.userRecipientId = userRecipientId;
         this.status = status;
     }
 
-    public Friends(User principal, User one, FriendshipStatus pending) {
-    }
 
 
     public Long getId() {
@@ -62,11 +61,11 @@ public class Friends {
         this.userRecipientId = userRecipientId;
     }
 
-    public String getStatus() {
+    public FriendshipStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(FriendshipStatus status) {
         this.status = status;
     }
 }

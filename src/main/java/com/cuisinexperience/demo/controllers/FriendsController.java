@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +26,37 @@ public class FriendsController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/user/friends")
-    public String viewFriends(Model vModel, Long id) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Friends> friendsList = friendsDao.getFriendsById(id);
-        List<User> userList = new ArrayList<>();
-        for (Friends friend : friendsList) {
-            if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
-                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
-            } else {
-                userList.add(userDao.findUserById(friend.getUserRecipientId().getId()));
-            }
-        }
-        vModel.addAttribute("friends", userList);
-        vModel.addAttribute("owner", loggedInUser);
-        return "profile";
-    }
+//    @GetMapping("/user/friends")
+//    public String viewFriends(Model vModel, Long id) {
+//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        List<Friends> friendsList = friendsDao.getFriendsById(id);
+//        List<User> userList = new ArrayList<>();
+//        for (Friends friend : friendsList) {
+//            if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
+//                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
+//            } else {
+//                userList.add(userDao.findUserById(friend.getUserRecipientId().getId()));
+//            }
+//        }
+//        vModel.addAttribute("friends", userList);
+//        vModel.addAttribute("owner", loggedInUser);
+//        return "profile";
+//    }
 
-    @GetMapping("user/{id}/friend-request")
-    public void friendRequestSent(@PathVariable Long id) {
-        friendsDao.save(new Friends((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), userDao.getOne(id), FriendshipStatus.PENDING));
+    @PostMapping("/user/{id}/friend-request")
+    public String friendRequestSent(@PathVariable Long id) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        loggedInUser = userDao.getOne(loggedInUser.getId());
+        if (loggedInUser.getId().equals(id)) {
+            return "redirect:/profile/" + id;
+        }
+
+        Friends friend = new Friends();
+        friend.setUserRecipientId(userDao.getOne(id));
+        friend.setUserSenderId(loggedInUser);
+        friend.setStatus(FriendshipStatus.PENDING);
+        friendsDao.save(friend);
+
+        return "redirect:/profile/" + id;
     }
 }
