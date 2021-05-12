@@ -10,12 +10,24 @@
     <div th:include="/navbar.html :: navbar"></div>
 </div>
 <main class="container row">
-    <div class="col">
-        <h2 class="text-center" th:text="${owner.username + 's Profile'}"></h2>
-        <form th:action="${'/user/' + owner.id + '/friend-request/'}" method="POST">
-            <button>Friend Me</button>
-<!--            <input type="hidden" th:value="${owner.id}" name="friend">-->
-        </form>
+    <div class="col-3">
+        <div class="card">
+            <img src="img.jpg" alt="John" style="width:100%">
+            <h1 th:text="${owner.username + 's Profile'}">John Doe</h1>
+            <p class="title">CEO & Founder, Example</p>
+            <p>Harvard University</p>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <form th:action="${'/user/' + owner.id + '/friend-request/'}" method="POST">
+                    <button type="submit" class="btn btn-success">Friend Me</button>
+                </form>
+                <form th:action="${'/user/' + owner.id + '/update'}" method="get">
+                    <button type="submit" class="btn btn-success">Update Profile</button>
+                </form>
+            </div>
+        </div>
         <ul>
             <div th:each="category : ${categories}">
                 <li>
@@ -25,9 +37,10 @@
             </div>
         </ul>
     </div>
+    <br>
     <div class="col-6">
-        <div class="card text-black bg-light mb-3 row">
-            <div th:each="item : ${posts}">
+        <div th:each="item : ${posts}">
+            <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
                 <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
                 <div class="card-header">
                     <h4 class="card-title" th:text="${item.title}"></h4>
@@ -35,33 +48,52 @@
                 <div class="card-body">
                     <p class="card-text" th:text="${item.content}"></p>
                 </div>
-                <a th:href="${'/posts/' + item.id}">
-                    <button type="submit" class="btn btn-primary">View Post</button>
-                </a>
-                <form th:action="${'/posts/' + item.id + '/update'}" method="get">
-                    <button type="submit" class="btn btn-success">Update</button>
-                </form>
-                <form th:action="${'/user/' + item.id + '/update'}" method="get">
-                    <button type="submit" class="btn btn-success">Update Profile</button>
-                </form>
+                <div class="card-body">
+                    <h5 class="card-text" th:text="${item.timePosted}"></h5>
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <form th:action="${'/posts/' + item.id}">
+                        <button type="submit" class="btn btn-secondary">View Post</button>
+                    </form>
+                    <form th:action="${'/posts/' + item.id + '/update'}" method="get">
+                        <button type="submit" class="btn btn-secondary">Update</button>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="col">
-            <div th:if="${owner != null}">
-                <div th:each="yourFriends : ${friends}">
-                    <p th:text="${yourFriends.username}"></p>
+    </div>
+    <div class="col-">
+        <div th:if="${owner != null}">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    My Friends
                 </div>
-                <div>
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-header">
-                            My Groups
-                        </div>
-                        <ul th:if="${groups != null}" class="list-group list-group-flush">
-                            <div th:each="yourGroups : ${groups}">
-                                <li th:text="${yourGroups.name}" class="list-group-item">An item</li>
-                            </div>
-                        </ul>
+                <ul th:if="${friends != null}" class="list-group list-group-flush">
+                    <div th:each="yourFriends : ${friends}">
+                        <li th:text="${yourFriends.username}" class="list-group-item"></li>
                     </div>
+                </ul>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    Pending Friend Requests
+                </div>
+                <ul th:if="${pending != null}" class="list-group list-group-flush">
+                    <div th:each="pendingList : ${pending}">
+                        <li th:text="${pendingList.username}" class="list-group-item"></li>
+                    </div>
+                </ul>
+            </div>
+            <div>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        My Groups
+                    </div>
+                    <ul th:if="${groups != null}" class="list-group list-group-flush">
+                        <div th:each="yourGroups : ${groups}">
+                            <li th:text="${yourGroups.name}" class="list-group-item">An item</li>
+                        </div>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -69,10 +101,3 @@
 </main>
 </body>
 </html>
-
-
-<!--<div th:if="${groups != null}">-->
-<!--    <div th:each="yourGroups : ${groups}">-->
-<!--        <p th:text="${yourGroups.name}"></p>-->
-<!--    </div>-->
-<!--</div>-->
