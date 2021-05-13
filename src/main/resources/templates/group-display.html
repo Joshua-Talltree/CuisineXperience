@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/header.html :: header">
+    <meta charset="UTF-8">
+    <title></title>
+
+</head>
+<body>
+<div>
+    <div th:include="/navbar.html :: navbar"></div>
+</div>
+
+<main class="container">
+
+    <div>
+        <h1 th:text="${groups.name}"></h1>
+        <p th:text="${groups.description}"></p>
+        <ul th:each="users : ${groups.users}">
+            <li th:text="${users.username}"></li>
+        </ul>
+        <div th:if="${!isMember}">
+            <form th:action="${'/groups/' + groups.id  + '/join'}" method="POST">
+                <button class="btn btn-primary" type="submit">Join Group</button>
+            </form>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

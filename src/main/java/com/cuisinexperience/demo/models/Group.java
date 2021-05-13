@@ -72,4 +72,14 @@ public class Group {
     public void setCreatedById(Long createdById) {
         this.createdById = createdById;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }
+
+
