@@ -49,6 +49,17 @@ public class UserController {
         return "/login";
     }
 
+    @GetMapping("/profile")
+    public String showUserProfile(Model model){
+        User user = new User();
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
+        }
+        return "redirect:/profile/" + user.getId();
+    }
+
+
     @GetMapping("profile/{ownerId}")
     public String showProfile(Model vModel, @PathVariable Long ownerId) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -67,8 +78,6 @@ public class UserController {
         List<User> userList = new ArrayList<>();
         // filter out your id as a friend on your friends list
         for (Friends friend : friendsList) {
-//            if (userDao.findUserById(friend.getUserRecipientId().getId()).getId().equals(loggedInUser.getId())) {
-//                userList.add(userDao.findUserById(friend.getUserSenderId().getId()));
             if (friend.getStatus() == FriendshipStatus.valueOf("ACCEPTED")) {
                 if (friend.getUserSenderId().getId().equals(ownerId)) {userList.add(friend.getUserRecipientId());
                 } else {
@@ -80,7 +89,27 @@ public class UserController {
                 }
             }
         }
-//        pending.add(userDao.getOne(2L));
+
+        List<Friends> existingFriends = friendsDao.getAllByUserRecipientIdAndUserSenderId(loggedInUser, userDao.getOne(ownerId));
+        List<Friends> existingFriendsReverse = friendsDao.getAllByUserRecipientIdAndUserSenderId(userDao.getOne(ownerId), loggedInUser);
+
+        existingFriends.removeIf(friend -> friend.getStatus() == FriendshipStatus.REJECTED);
+        existingFriendsReverse.removeIf(friend -> friend.getStatus() == FriendshipStatus.REJECTED);
+
+        boolean isAlreadyFriends = false;
+
+        if(existingFriends.size() > 0 || existingFriendsReverse.size() > 0) {
+            isAlreadyFriends = true;
+        }
+
+        boolean isOwner = false;
+
+        if(loggedInUser.getId().equals(ownerId)) {
+            isOwner = true;
+        }
+
+        vModel.addAttribute("isOwner", isOwner);
+        vModel.addAttribute("alreadyFriends", isAlreadyFriends);
         vModel.addAttribute("pending", pending);
         vModel.addAttribute("friends", userList);
         vModel.addAttribute("owner", loggedInUser);
@@ -167,13 +196,3 @@ public class UserController {
     }
 }
 
-//    @GetMapping("/profile")
-//    public String showUserProfile(Model model){
-//        User user = new User();
-//        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
-//            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            model.addAttribute("user", user);
-//        }
-//        return "redirect:/pro/" + user.getId();
-//    }
-//}
