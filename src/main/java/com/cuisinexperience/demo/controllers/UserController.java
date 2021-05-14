@@ -24,15 +24,17 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final GroupRepository groupDao;
     private final FriendsRepository friendsDao;
+    private final BlockedUserRepository blockedUserDao;
 
 
-    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, GroupRepository groupDao, FriendsRepository friendsDao) {
+    public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, GroupRepository groupDao, FriendsRepository friendsDao, BlockedUserRepository blockedUserDao) {
         this.userDao = userDao;
         this.postDao = postDao;
         this.categoriesDao = categoriesDao;
         this.passwordEncoder = passwordEncoder;
         this.groupDao = groupDao;
         this.friendsDao = friendsDao;
+        this.blockedUserDao = blockedUserDao;
     }
 
     @GetMapping("/signup")
@@ -96,6 +98,22 @@ public class UserController {
         existingFriends.removeIf(friend -> friend.getStatus() == FriendshipStatus.REJECTED);
         existingFriendsReverse.removeIf(friend -> friend.getStatus() == FriendshipStatus.REJECTED);
 
+        boolean isBlocked = false;
+        boolean blockedByMe = false;
+
+        List<BlockedUser> blockedUser = blockedUserDao.getAllByUserRecipientIdAndUserSenderId(loggedInUser, userDao.getOne(ownerId));
+        List<BlockedUser> blockedUserReverse = blockedUserDao.getAllByUserRecipientIdAndUserSenderId(userDao.getOne(ownerId), loggedInUser);
+
+
+       if(blockedUser.size() > 0) {
+           isBlocked = true;
+       }
+
+       if(blockedUserReverse.size() > 0) {
+           isBlocked = true;
+           blockedByMe = true;
+       }
+
         boolean isAlreadyFriends = false;
 
         if(existingFriends.size() > 0 || existingFriendsReverse.size() > 0) {
@@ -108,6 +126,8 @@ public class UserController {
             isOwner = true;
         }
 
+        vModel.addAttribute("blockedByMe", blockedByMe);
+        vModel.addAttribute("isBlocked", isBlocked);
         vModel.addAttribute("isOwner", isOwner);
         vModel.addAttribute("alreadyFriends", isAlreadyFriends);
         vModel.addAttribute("pending", pending);
@@ -160,7 +180,7 @@ public class UserController {
     }
 
     @PostMapping("/user/{id}/update")
-    public String updatePost(@ModelAttribute User userToUpdate, @PathVariable String username){
+    public String updatePost(@ModelAttribute User userToUpdate, @PathVariable Long id){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String hashPass = passwordEncoder.encode(userToUpdate.getPassword());
         userToUpdate.setPassword(hashPass);
