@@ -10,110 +10,128 @@
     <div th:include="/navbar.html :: navbar"></div>
 </div>
 <main class="container row">
-    <div class="col-3">
+    <div th:if="${isBlocked}">
         <div class="card">
             <img src="img.jpg" alt="John" style="width:100%">
             <h1 th:text="${owner.username + 's Profile'}">John Doe</h1>
             <p class="title">CEO & Founder, Example</p>
             <p>Harvard University</p>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-linkedin"></i></a>
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <div th:if="${!alreadyFriends} and ${!isOwner}">
-                    <form th:action="${'/user/' + owner.id + '/friend-request/'}" method="POST">
-                        <button type="submit" class="btn btn-success">Friend Me</button>
-                    </form>
-                </div>
-                <div th:if="${isOwner}">
-                    <form th:action="${'/user/' + owner.id + '/update'}" method="get">
-                        <button type="submit" class="btn btn-success">Update Profile</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <ul>
-            <div th:each="category : ${categories}">
-                <li>
-                    <a th:href="${'/profile/' + owner.id + '/category/' + category.id}"><span
-                            th:text="${category.name}"></span></a>
-                </li>
-            </div>
-        </ul>
-    </div>
-    <br>
-    <div class="col-6">
-        <div th:each="item : ${posts}">
-            <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
-                <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
-                <div class="card-header">
-                    <h4 class="card-title" th:text="${item.title}"></h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text" th:text="${item.content}"></p>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-text" th:text="${item.timePosted}"></h5>
-                </div>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <form th:action="${'/posts/' + item.id}">
-                        <button type="submit" class="btn btn-secondary">View Post</button>
-                    </form>
-                    <form th:action="${'/posts/' + item.id + '/update'}" method="get">
-                        <button type="submit" class="btn btn-secondary">Update</button>
-                    </form>
-                </div>
+            <div th:if="${blockedByMe}">
+                <form th:action="${'/user/' + owner.id + '/unblock'}" method="POST">
+                    <button class="btn btn-secondary">Unblock Me</button>
+                </form>
             </div>
         </div>
     </div>
-    <div class="col-3">
-        <div th:if="${owner != null}">
-            <div class="card" style="width: 18rem;">
-                <div class="card-header">
-                    My Friends
-                </div>
-                <ul th:if="${friends != null}" class="list-group list-group-flush">
-                    <div th:each="yourFriends : ${friends}">
-                        <a th:href="${'/profile/' + yourFriends.id}">
-                            <li th:text="${yourFriends.username}" class="list-group-item"></li>
-                        </a>
+</main>
+<main class="container">
+    <div class="row" th:unless="${isBlocked}">
+        <div class="col-3">
+            <div class="card">
+                <img src="img.jpg" alt="John" style="width:100%">
+                <h1 th:text="${owner.username + 's Profile'}">John Doe</h1>
+                <p class="title">CEO & Founder, Example</p>
+                <p>Harvard University</p>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-linkedin"></i></a>
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <div class="btn-group d-flex flex-column" role="group" aria-label="Basic example">
+                    <div th:if="${!alreadyFriends} and ${!isOwner}">
+                        <form th:action="${'/user/' + owner.id + '/friend-request'}" method="POST">
+                            <button type="submit" class="btn btn-success">Friend Me</button>
+                        </form>
                     </div>
-                </ul>
-            </div>
-
-            <div class="card" style="width: 18rem;" th:if="${isOwner}">
-                <div class="card-header">
-                    Pending Friend Requests
-                </div>
-                <ul th:if="${pending != null}" class="list-group list-group-flush">
-                    <div th:each="pendingList : ${pending}">
-                        <li th:text="${pendingList.username}" class="list-group-item"></li>
-                        <div>
-                            <div th:if="${owner != null}">
-                                <form th:action="${'/user/' + owner.id + '/friend-approval/'}" method="POST">
-                                    <button type="submit" class="btn btn-success">Accept</button>
-                                    <input type="hidden" name="approvalId" th:value="${pendingList.id}">
-                                </form>
-                                <form th:action="${'/user/' + owner.id + '/friend-reject/'}" method="POST">
-                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                    <input type="hidden" name="rejectId" th:value="${pendingList.id}">
-                                </form>
-                            </div>
-                        </div>
+                    <div th:if="${!isOwner}">
+                        <form th:action="${'/user/' + owner.id + '/block'}" method="POST">
+                            <button class="btn btn-secondary" type="submit">Block This Person</button>
+                        </form>
                     </div>
-                </ul>
+                    <div th:if="${isOwner}">
+                        <form th:action="${'/user/' + owner.id + '/update'}" method="get">
+                            <button type="submit" class="btn btn-success">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
+        </div>
+        <br>
+        <div class="col-6">
+            <div th:each="item : ${posts}">
+                <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
+                    <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
+                    <div class="card-header">
+                        <h4 class="card-title" th:text="${item.title}"></h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" th:text="${item.content}"></p>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-text" th:text="${item.timePosted}"></h5>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <form th:action="${'/posts/' + item.id}">
+                            <button type="submit" class="btn btn-secondary">View Post</button>
+                        </form>
+                        <form th:action="${'/posts/' + item.id + '/update'}" method="get">
+                            <button type="submit" class="btn btn-secondary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div th:if="${owner != null}">
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
-                        My Groups
+                        My Friends
                     </div>
-                    <ul th:if="${groups != null}" class="list-group list-group-flush">
-                        <div th:each="yourGroups : ${groups}">
-                            <li th:text="${yourGroups.name}" class="list-group-item">An item</li>
+                    <ul th:if="${friends != null}" class="list-group list-group-flush">
+                        <div th:each="yourFriends : ${friends}">
+                            <a th:href="${'/profile/' + yourFriends.id}">
+                                <li th:text="${yourFriends.username}" class="list-group-item"></li>
+                            </a>
                         </div>
                     </ul>
                 </div>
+                <div class="card" style="width: 18rem;" th:if="${isOwner}">
+                    <div class="card-header">
+                        Pending Friend Requests
+                    </div>
+                    <ul th:if="${pending != null}" class="list-group list-group-flush">
+                        <div th:each="pendingList : ${pending}">
+                            <li th:text="${pendingList.username}" class="list-group-item"></li>
+                            <div>
+                                <div th:if="${owner != null}">
+                                    <form th:action="${'/user/' + owner.id + '/friend-approval/'}" method="POST">
+                                        <button type="submit" class="btn btn-success">Accept</button>
+                                        <input type="hidden" name="approvalId" th:value="${pendingList.id}">
+                                    </form>
+                                    <form th:action="${'/user/' + owner.id + '/friend-reject/'}" method="POST">
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                        <input type="hidden" name="rejectId" th:value="${pendingList.id}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <div>
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">
+                            My Groups
+                        </div>
+                        <ul th:if="${groups != null}" class="list-group list-group-flush">
+                            <div th:each="yourGroups : ${groups}">
+                                <li th:text="${yourGroups.name}" class="list-group-item">An item</li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <ul th:if="${categories != null}" class="list-group list-group-flush" th:each="category : ${categories}">
+                    <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}" class="list-group-item"></span></a></li>
+                </ul>
             </div>
         </div>
     </div>
