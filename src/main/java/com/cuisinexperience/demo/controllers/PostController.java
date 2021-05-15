@@ -53,9 +53,14 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPostsHere(@ModelAttribute Post postToCreate) {
-
+    public String createPostsHere(@ModelAttribute Post postToCreate, @PathVariable Long categoryId) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Categories categories = categoriesDao.getOne(categoryId);
+        if (categories.getPosts() != null) {
+            categories = postToCreate.getCategories().get(0);
+        }
+        // save the category
+        categoriesDao.save(categories);
         // save the post
         postDao.save(postToCreate);
         // set the user
@@ -68,8 +73,6 @@ public class PostController {
     @GetMapping("/posts/category/{categoryId}")
     public String showCategory(@PathVariable String categoryId, Model vModel) {
         Categories searchCategories = categoriesDao.getOne(Long.parseLong(categoryId));
-//        List<Post> posts = postDao.findPostsByCategoryAndContainsOwner(searchCategories, userDao.getOne(Long.parseLong(categoryId)));
-//        model.addAttribute("posts", posts);
         vModel.addAttribute("categories", categoriesDao.findAll());
         return "index";
     }
