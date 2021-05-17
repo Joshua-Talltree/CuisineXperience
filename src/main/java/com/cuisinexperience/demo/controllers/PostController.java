@@ -53,22 +53,21 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPostsHere(@ModelAttribute Post postToCreate, @PathVariable Long categoryId) {
+    public String createPostsHere(@ModelAttribute Post postToCreate, @RequestParam(name = "categories") String[] postCategories) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Categories categories = categoriesDao.getOne(categoryId);
-        if (categories.getPosts() != null) {
-            categories = postToCreate.getCategories().get(0);
+        List<Categories> allCategories = new ArrayList<>();
+        for (String category: postCategories) {
+            postToCreate.setCategories(allCategories);
         }
-        // save the category
-        categoriesDao.save(categories);
-        // save the post
-        postDao.save(postToCreate);
-        // set the user
-        postToCreate.setOwner(userToAdd);
-        Post savedPost = postDao.save(postToCreate);
-        emailServices.prepareAndSend(savedPost, "Here is the title", "Here is the body");
-        return "redirect:/posts";
-    }
+            // save the post
+            postDao.save(postToCreate);
+            // set the user
+            postToCreate.setOwner(userToAdd);
+            Post savedPost = postDao.save(postToCreate);
+            emailServices.prepareAndSend(savedPost, "Here is the title", "Here is the body");
+            return "redirect:/posts";
+        }
+
 
     @GetMapping("/posts/category/{categoryId}")
     public String showCategory(@PathVariable String categoryId, Model vModel) {

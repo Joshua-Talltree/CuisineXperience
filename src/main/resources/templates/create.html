@@ -9,57 +9,78 @@
 </div>
 <div class="container">
     <th:block th:if="${post.id == null}">
-        <form th:action="@{/posts/create}" th:method="post" th:object="${post}">
-            <h2>Create your post here:</h2>
-            <br>
-            <div>
-                <label for="category">Select Category</label>
-                <select th:each="category : ${categories}" class="form-select" aria-label="Default select example" id="category">
-                    <option th:selected="${category.name}">Open this select menu</option>
-                </select>
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <div class="card" style="width: 35rem;">
+                    <div class="card-body">
+                        <form th:action="@{/posts/create}" th:method="post" th:object="${post}">
+                            <h2>Create your post here:</h2>
+                            <br>
+                            <div th:each="category : ${post.categories}">
+                                <label for="category">Select Category</label>
+                                <select class="form-select" aria-label="Default select example" id="category">
+                                    <option th:selected="${category.name}">Open this select menu</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="images">Insert Image</label>
+                                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images"
+                                       placeholder="Url"
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input th:field="*{title}" name="post_title" class="form-control" id="title"
+                                       placeholder="eg: My BLOG"
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="body">Content</label>
+                                <textarea th:field="*{content}" name="post_body" class="form-control" id="body"
+                                          placeholder="eg: Fill in the blank"
+                                          rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Create</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="images">Insert Image</label>
-                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images" placeholder="Url"
-                       type="text">
-            </div>
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input th:field="*{title}" name="post_title" class="form-control" id="title" placeholder="eg: My BLOG"
-                       type="text">
-            </div>
-            <div class="form-group">
-                <label for="body">Content</label>
-                <textarea th:field="*{content}" name="post_body" class="form-control" id="body"
-                          placeholder="eg: Fill in the blank"
-                          rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Create</button>
-        </form>
+        </div>
     </th:block>
 </div>
 <div class="container">
     <th:block th:unless="${post.id == null}">
-        <form th:action="${'/posts/' + post.id + '/update'}" th:method="post" th:object="${post}">
-            <h2>Update your post here:</h2>
-            <br>
-            <div class="form-group">
-                <label for="images2">Insert New Image</label>
-                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images2" placeholder="Url"
-                       type="text">
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <div class="card" style="width: 35rem;">
+                    <div class="card-body">
+                        <form th:action="${'/posts/' + post.id + '/update'}" th:method="post" th:object="${post}">
+                            <h2>Update your post here:</h2>
+                            <br>
+                            <div class="form-group">
+                                <label for="images2">Insert New Image</label>
+                                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images2"
+                                       placeholder="Url"
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="title2">Title</label>
+                                <input th:field="*{title}" name="post_title" class="form-control" id="title2"
+                                       type="text"
+                                       placeholder="Title">
+                            </div>
+                            <div class="form-group">
+                                <label for="body2">Body</label>
+                                <textarea th:field="*{content}" name="post_body" class="form-control" id="body2"
+                                          placeholder="Body"
+                                          rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Update</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="title2">Title</label>
-                <input th:field="*{title}" name="post_title" class="form-control" id="title2" type="text"
-                       placeholder="Title">
-            </div>
-            <div class="form-group">
-                <label for="body2">Body</label>
-                <textarea th:field="*{content}" name="post_body" class="form-control" id="body2" placeholder="Body"
-                          rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Update</button>
-        </form>
+        </div>
     </th:block>
 </div>
 <div>

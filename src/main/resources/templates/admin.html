@@ -9,21 +9,26 @@
     <div th:include="/navbar.html :: navbar"></div>
 </div>
 <main class="container">
-<div>
-    <p>Welcome Administrator</p>
-    <p sec:authorize="hasRole('ROLE_ADMIN')"></p>
-</div>
-<div>
-    <h5>List of Users</h5>
-    <br>
-    <ul th:each="user : ${users}">
-        <li th:text="${user.id} + ${user.username}"></li>
-        <form th:action="${'/user/' + user.id + '/delete'}" th:method="post">
-            <button type="submit" class="btn btn-primary">Delete</button>
-        </form>
-    </ul>
-
-</div>
+    <div>
+        <p style="text-align: center">Welcome Administrator</p>
+        <p sec:authorize="hasRole('ROLE_ADMIN')"></p>
+    </div>
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <div class="card" style="width: 25rem;">
+                <div class="card-header">
+                    Users
+                </div>
+                <ul th:each="user : ${users}" class="list-group list-group-flush">
+                    <li th:text="${user.id} + ${user.username}" class="list-group-item">An item</li>
+                    <form th:action="${'/user/' + user.id + '/delete'}" th:method="post">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </div>
 </main>
 </body>
 </html>
+

@@ -81,11 +81,11 @@
         </div>
         <div class="col-3">
             <div th:if="${owner != null}">
-                <div class="card" style="width: 18rem;">
+                <div class="card pb-2" style="width: 18rem;">
                     <div class="card-header">
                         My Friends
                     </div>
-                    <ul th:if="${friends != null}" class="list-group list-group-flush">
+                    <ul th:if="${friends != null}" class="list-group list-group-flush pb-2">
                         <div th:each="yourFriends : ${friends}">
                             <a th:href="${'/profile/' + yourFriends.id}">
                                 <li th:text="${yourFriends.username}" class="list-group-item"></li>
@@ -93,7 +93,7 @@
                         </div>
                     </ul>
                 </div>
-                <div class="card" style="width: 18rem;" th:if="${isOwner}">
+                <div class="card pb-2" style="width: 18rem;" th:if="${isOwner}">
                     <div class="card-header">
                         Pending Friend Requests
                     </div>
@@ -116,7 +116,7 @@
                     </ul>
                 </div>
                 <div>
-                    <div class="card" style="width: 18rem;">
+                    <div class="card pb-2" style="width: 18rem;">
                         <div class="card-header">
                             My Groups
                         </div>
@@ -128,10 +128,18 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <ul th:if="${categories != null}" class="list-group list-group-flush" th:each="category : ${categories}">
-                    <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}" class="list-group-item"></span></a></li>
-                </ul>
+            <div class="card pb-2" style="width: 18rem;">
+                <div class="card-header">
+                    Categories
+                </div>
+                <div class="pb-2">
+                    <ul th:if="${categories != null}" class="list-group list-group-flush"
+                        th:each="category : ${categories}">
+                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}"
+                                                                                     class="list-group-item"></span></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
