@@ -12,7 +12,7 @@
 <main class="container row">
     <div th:if="${isBlocked}">
         <div class="card">
-            <img src="img.jpg" alt="John" style="width:100%">
+            <img th:src="${owner.avatarUrl}" src="" alt="" style="width:100%">
             <h1 th:text="${owner.username + 's Profile'}">John Doe</h1>
             <p class="title">CEO & Founder, Example</p>
             <p>Harvard University</p>
@@ -28,7 +28,7 @@
     <div class="row" th:unless="${isBlocked}">
         <div class="col-3">
             <div class="card">
-                <img src="img.jpg" alt="John" style="width:100%">
+                <img th:src="${owner.avatarUrl}" alt="" src="" style="width:100%">
                 <h1 th:text="${owner.username + 's Profile'}">John Doe</h1>
                 <p class="title">CEO & Founder, Example</p>
                 <p>Harvard University</p>
@@ -135,8 +135,7 @@
                 <div class="pb-2">
                     <ul th:if="${categories != null}" class="list-group list-group-flush"
                         th:each="category : ${categories}">
-                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}"
-                                                                                     class="list-group-item"></span></a>
+                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}" class="list-group-item"></span></a>
                         </li>
                     </ul>
                 </div>

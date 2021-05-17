@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -69,8 +70,16 @@ public class UserController {
         vModel.addAttribute("posts", posts);
 
         List<Categories> categories = new ArrayList<>();
+        HashMap<Long, String> existingCategories = new HashMap<>();
         for (Post post : posts) {
-            post.getCategories().stream().filter(category -> !categories.contains(category)).forEach(categories::add);
+            if(post.getCategories().size() > 0) {
+                if (existingCategories.containsKey(post.getCategories().get(0).getId())) {
+
+                } else {
+                    categories.add(post.getCategories().get(0));
+                }
+//            post.getCategories().stream().filter(category -> !categories.contains(category)).forEach(categories::add);
+            }
         }
         List<Group> groups = groupDao.findAllByCreatedById(ownerId);
 

@@ -49,22 +49,22 @@ public class PostController {
     @GetMapping("/posts/create")
     public String createPosts(Model vModel) {
         vModel.addAttribute("post", new Post());
+        vModel.addAttribute("categories", categoriesDao.findAll());
         return "/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPostsHere(@ModelAttribute Post postToCreate, @RequestParam(name = "categories") String[] postCategories) {
+    public String createPostsHere(@ModelAttribute Post postToCreate, @RequestParam(name = "categories") List<Categories> postCategories) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Categories> allCategories = new ArrayList<>();
-        for (String category: postCategories) {
-            postToCreate.setCategories(allCategories);
-        }
-            // save the post
-            postDao.save(postToCreate);
+        postToCreate.setCategories(postCategories);
             // set the user
             postToCreate.setOwner(userToAdd);
-            Post savedPost = postDao.save(postToCreate);
-            emailServices.prepareAndSend(savedPost, "Here is the title", "Here is the body");
+
+            // save the post
+            postDao.save(postToCreate);
+
+//            Post savedPost = postDao.save(postToCreate);
+//            emailServices.prepareAndSend(savedPost, "Here is the title", "Here is the body");
             return "redirect:/posts";
         }
 
@@ -124,11 +124,6 @@ public class PostController {
         return "redirect:/posts";
     }
 
-//    @GetMapping("/post/liked")
-//    public String likePost(Model vModel) {
-//        vModel.addAttribute("liked", new Post());
-//        return "/index";
-//    }
 
     @PostMapping("post/liked")
     public String postLiked(@ModelAttribute(name = "postId") Long postId) {

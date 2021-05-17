@@ -1,6 +1,7 @@
 package com.cuisinexperience.demo.services;
 
-import com.cuisinexperience.demo.models.Post;
+import com.cuisinexperience.demo.models.FriendshipStatus;
+import com.cuisinexperience.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -17,12 +18,12 @@ public class EmailServices {
     @Value("${spring.mail.from}")
     private String from;
 
-    public void prepareAndSend(Post post, String subject, String body) {
+    public void prepareAndSend(User userSenderId, User userRecipientId, FriendshipStatus status) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
-        msg.setTo(post.getOwner().getEmail());
-        msg.setSubject(subject);
-        msg.setText(body);
+        msg.setTo(userRecipientId.getEmail());
+        msg.setSubject(String.valueOf(userSenderId));
+        msg.setText(String.valueOf(status));
 
         try {
             this.emailSender.send(msg);
