@@ -7,6 +7,7 @@ import com.cuisinexperience.demo.models.User;
 import com.cuisinexperience.demo.repos.BlockedUserRepository;
 import com.cuisinexperience.demo.repos.FriendsRepository;
 import com.cuisinexperience.demo.repos.UserRepository;
+import com.cuisinexperience.demo.services.EmailServices;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +20,13 @@ public class FriendsController {
     private final FriendsRepository friendsDao;
     private final UserRepository userDao;
     private final BlockedUserRepository blockedUserDao;
+    private final EmailServices emailServices;
 
-    public FriendsController(FriendsRepository friendsDao, UserRepository userDao, BlockedUserRepository blockedUserDao) {
+    public FriendsController(FriendsRepository friendsDao, UserRepository userDao, BlockedUserRepository blockedUserDao, EmailServices emailServices) {
         this.friendsDao = friendsDao;
         this.userDao = userDao;
         this.blockedUserDao = blockedUserDao;
+        this.emailServices = emailServices;
     }
 
     @PostMapping("/user/{id}/friend-request")
@@ -34,11 +37,14 @@ public class FriendsController {
             return "redirect:/profile/" + id;
         }
 
+        User user = userDao.getOne(id);
         Friends friend = new Friends();
-        friend.setUserRecipientId(userDao.getOne(id));
+        friend.setUserRecipientId(user);
         friend.setUserSenderId(loggedInUser);
         friend.setStatus(FriendshipStatus.PENDING);
         friendsDao.save(friend);
+
+        emailServices.prepareAndSend(loggedInUser, user);
 
         return "redirect:/profile/" + id;
     }
