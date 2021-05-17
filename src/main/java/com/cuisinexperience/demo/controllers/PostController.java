@@ -63,8 +63,6 @@ public class PostController {
             // save the post
             postDao.save(postToCreate);
 
-//            Post savedPost = postDao.save(postToCreate);
-//            emailServices.prepareAndSend(savedPost, "Here is the title", "Here is the body");
             return "redirect:/posts";
         }
 

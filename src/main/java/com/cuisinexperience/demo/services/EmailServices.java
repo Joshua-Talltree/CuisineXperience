@@ -18,12 +18,14 @@ public class EmailServices {
     @Value("${spring.mail.from}")
     private String from;
 
-    public void prepareAndSend(User userSenderId, User userRecipientId, FriendshipStatus status) {
+    public void prepareAndSend(User userSenderId, User userRecipientId) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
         msg.setTo(userRecipientId.getEmail());
-        msg.setSubject(String.valueOf(userSenderId));
-        msg.setText(String.valueOf(status));
+        msg.setSubject("You've been friended by: " + userSenderId.getUsername());
+        msg.setText("Your friendship status is pending, please log on to CuisineXperience to accept their friend request");
+
+        System.out.println("email sent to " + userRecipientId.getUsername());
 
         try {
             this.emailSender.send(msg);

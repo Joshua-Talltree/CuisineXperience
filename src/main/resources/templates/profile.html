@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="/header.html :: header">
     <meta charset="UTF-8">
     <title></title>
@@ -12,8 +12,10 @@
 <main class="container row">
     <div th:if="${isBlocked}">
         <div class="card">
-            <img th:src="${owner.avatarUrl}" src="" alt="" style="width:100%">
-            <h1 th:text="${owner.username + 's Profile'}">John Doe</h1>
+            <img th:src="${owner.avatarUrl}" src="" alt="" style="border-radius: 50%">
+            <div class="card-header">
+                <h3 class="card-title" th:text="${owner.username + 's Profile'}">John Doe</h3>
+            </div>
             <p class="title">CEO & Founder, Example</p>
             <p>Harvard University</p>
             <div th:if="${blockedByMe}">
@@ -28,8 +30,10 @@
     <div class="row" th:unless="${isBlocked}">
         <div class="col-3">
             <div class="card">
-                <img th:src="${owner.avatarUrl}" alt="" src="" style="width:100%">
-                <h1 th:text="${owner.username + 's Profile'}">John Doe</h1>
+                <img th:src="${owner.avatarUrl}" alt="" src="" style="border-radius: 50%">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="${owner.username + 's Profile'}">John Doe</h3>
+                </div>
                 <p class="title">CEO & Founder, Example</p>
                 <p>Harvard University</p>
                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -49,6 +53,11 @@
                     <div th:if="${isOwner}">
                         <form th:action="${'/user/' + owner.id + '/update'}" method="get">
                             <button type="submit" class="btn btn-success">Update Profile</button>
+                        </form>
+                    </div>
+                    <div th:if="${owner.isAdmin}">
+                        <form th:action="${'/user/admin'}" method="get">
+                            <button type="submit" class="btn btn-success">Admin</button>
                         </form>
                     </div>
                 </div>
@@ -135,7 +144,8 @@
                 <div class="pb-2">
                     <ul th:if="${categories != null}" class="list-group list-group-flush"
                         th:each="category : ${categories}">
-                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}" class="list-group-item"></span></a>
+                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}"
+                                                                                     class="list-group-item"></span></a>
                         </li>
                     </ul>
                 </div>

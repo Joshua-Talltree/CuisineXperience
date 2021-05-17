@@ -17,16 +17,16 @@
         <div class="card-body">
             <p class="card-text" th:text="${post.content}"></p>
         </div>
-    </div>
-    <div class="row">
-        <form class="mr-1" th:action="${'/posts/' + post.id + '/delete'}" method="post">
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-        <br>
-        <form th:action="${'/posts/' + post.id + '/update'}" method="get">
-            <button type="submit" class="btn btn-success">Update</button>
-        </form>
-    </div>
+        <div class="row">
+            <form class="mr-1" th:action="${'/posts/' + post.id + '/delete'}" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <br>
+            <form th:action="${'/posts/' + post.id + '/update'}" method="get">
+                <button type="submit" class="btn btn-success">Update</button>
+            </form>
+        </div>
+    </div>=
 </div>
 </body>
 </html>

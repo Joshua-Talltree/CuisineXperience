@@ -10,26 +10,37 @@
     <h2>Welcome <span th:text="${#authentication.principal.username}"></span></h2></div>
 <main class="container">
     <div th:if="${word != null}">
-        <span><h1>Here Are Your Search Results</h1></span>
-        <div th:each="post : ${posts}">
-            <h5 th:text="${post.title}"></h5>
-            <img th:src="${post.imageUrl}" alt="placeholder" src=""/>
-            <p th:text="${post.content}"></p>
+        <span style="text-align: center; text-decoration: underline;"><h3>Here Are Your Search Results:</h3></span>
+        <div class="row d-flex justify-content-center">
+            <div class="col-6">
+                <div th:each="post : ${posts}">
+                    <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
+                        <img th:if="${post.imageUrl != null}" src="" alt="" th:src="${post.imageUrl}">
+                        <div class="card-header">
+                            <h4 class="card-title" th:text="${post.title}"></h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text" th:text="${post.content}"></p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-text" th:text="${post.timePosted}"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div th:if="${word == null}"></div>
     <div th:unless="${word != null}">
         <h1 class="text-center">See All Posts Here:</h1>
         <br>
-        <div class="post">
-            <div class="card text-black bg-light mb-3 row" th:each="post : ${posts}" style="max-width: 300rem;">
+        <div class="post row">
+            <div class="card text-black bg-light mb-3 col-6" th:each="post : ${posts}" style="max-width: 300rem;">
+                <img th:if="${post.imageUrl != null}" src="" alt="" th:src="${post.imageUrl}">
                 <div sec:authorize="isAuthenticated()" class="card-header">
                     <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
                 </div>
                 <div sec:authorize="isAnonymous()">
-                    <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
-                        <img th:src="${post.imageUrl}" class="card-img-top" src="" alt="..."/>
-                    </div>
                     <div class="card-body">
                         <p class="card-text" th:text="${post.content}"></p>
                     </div>
@@ -39,41 +50,53 @@
                 </div>
                 <div class="container mt-5">
                     <div class="d-flex justify-content-center row">
-                        <div class="col-md-8">
+                        <div>
                             <div class="d-flex flex-column comment-section">
                                 <div class="bg-white p-2" th:each="postComments : ${post.getComment()}">
-                                    <div class="d-flex flex-row user-info"><img class="rounded-circle"
-                                                                                src="https://i.imgur.com/RpzrMR2.jpg" width="40">
-                                        <div class="d-flex flex-column justify-content-start ml-2" th:text="${postComments.id}">
-                                            <span class="d-block font-weight-bold name">Marry Andrews</span><span class="date text-black-50">Shared publicly - Jan 2020</span></div>
+                                    <div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                        <a th:href="${'/profile/' + postComments.getUserId().id}"><div class="d-flex flex-column justify-content-start ml-2"
+                                             th:text="${postComments.getUserId().username}">
+                                            <span class="d-block font-weight-bold name">Marry Andrews</span><span
+                                                class="date text-black-50">Shared publicly - Jan 2020</span></div></a>
                                     </div>
                                     <div class="mt-2">
-                                        <p class="comment-text" th:text="${postComments.comment}">Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                        <p class="comment-text" th:text="${postComments.comment}">Lorem ipsum dolor sit
+                                            amet,
+                                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                                            dolore magna
+                                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                            nisi ut
                                             aliquip ex ea commodo consequat.</p>
                                     </div>
                                 </div>
                                 <div class="bg-white">
                                     <div class="d-flex flex-row fs-12">
-                                        <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span>
+                                        <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span
+                                                class="ml-1">Like</span>
                                         </div>
                                         <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span
                                                 class="ml-1">Comment</span></div>
-                                        <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span>
+                                        <div class="like p-2 cursor"><i class="fa fa-share"></i><span
+                                                class="ml-1">Share</span>
                                         </div>
                                     </div>
                                 </div>
                                 <form th:action="@{/comment/create}" th:method="POST">
-                                    <div class="bg-light p-2">
-                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                    <div class="bg-light pb-4">
+                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle"
+                                                                                            src="https://i.imgur.com/RpzrMR2.jpg"
+                                                                                            width="40">
                                             <label for="comment"></label>
-                                            <textarea class="form-control ml-1 shadow-none textarea" name="comment" id="comment" placeholder="Comment here"></textarea>
+                                            <textarea class="form-control ml-1 shadow-none textarea" name="comment"
+                                                      id="comment" placeholder="Comment here"></textarea>
                                             <input type="hidden" name="postId" th:value="${post.id}">
                                         </div>
                                         <div class="mt-2 text-right">
-                                            <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
-                                            <button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel
+                                            <button class="btn btn-primary btn-sm shadow-none" type="submit">Post
+                                                comment
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm ml-1 shadow-none"
+                                                    type="button">Cancel
                                             </button>
                                         </div>
                                     </div>
@@ -93,50 +116,8 @@
 </html>
 
 
-<!--<div class="container mt-3 d-flex justify-content-center">-->
-<!--    <div class="row d-flex justify-content-center">-->
-<!--        <div class="col-md-8">-->
-<!--            <div class="text-left">-->
-<!--                <h6>All comment(5)</h6>-->
-<!--            </div>-->
-<!--            <div th:each="postComments : ${post.getComment()}">-->
-<!--                <div class="d-flex flex-row"><img src="https://i.imgur.com/dwiGgJr.jpg" height="40"-->
-<!--                                                  width="40" class="rounded-circle" alt="">-->
-<!--                    <div class="d-flex flex-column ms-2">-->
-<!--                        <h6 class="mb-1 text-primary" th:text="${postComments.id}">Emma</h6>-->
-<!--                        <p class="comment-text" th:text="${postComments.comment}">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="d-flex justify-content-between">-->
-<!--                    <div class="d-flex flex-row gap-3 align-items-center">-->
-<!--                        <div class="d-flex align-items-center"><i class="fa fa-comment-o"></i> <span-->
-<!--                                class="ms-1 fs-10">Comments</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="d-flex flex-row"><span class="text-muted fw-normal fs-10" th:text="${postComments.timeSent}">May 22,2020 12:10 PM</span>-->
-<!--                    </div>-->
-<!--                    <hr>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<form th:action="@{/comment/create}" th:method="POST">-->
-<!--    <div class="card-body">-->
-<!--        <div class="mb-3">-->
-<!--            <label for="comment">Comment:</label>-->
-<!--            <br>-->
-<!--            <textarea class="form-control" name="comment" id="comment"-->
-<!--                      placeholder="Comment here"></textarea>-->
-<!--            <input type="hidden" name="postId" th:value="${post.id}">-->
-<!--        </div>-->
-<!--        <button type="submit" class="btn btn-primary">Comment</button>-->
-<!--    </div>-->
-<!--</form>-->
-<!--<form th:action="@{/post/liked}" method="post">-->
-<!--    <input type="hidden" name="postId" th:value="${post.id}">-->
-<!--    <button type="submit" class="btn btn-success">Like</button>-->
-<!--</form>-->
-<!--<div>-->
-<!--    <p>This post has been liked:<span th:text="${post.usersLiked.size()}"></span></p>-->
+<!--<div th:each="post : ${posts}">-->
+<!--    <h5 th:text="${post.title}"></h5>-->
+<!--    <img th:src="${post.imageUrl}" alt="placeholder" src=""/>-->
+<!--    <p th:text="${post.content}"></p>-->
 <!--</div>-->
