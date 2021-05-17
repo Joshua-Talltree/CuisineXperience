@@ -9,53 +9,74 @@
 </div>
 <main class="container">
     <th:block th:if="${user.id == null}">
-        <h1>Create an account</h1>
-        <form th:action="@{/signup}" method="POST" th:object="${user}">
+        <h1 style="text-align: center;">Create an account</h1>
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <div class="card" style="width: 45rem;">
+                    <div class="card-body">
+                        <form th:action="@{/signup}" method="POST" th:object="${user}">
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="email">Email Address</label>
-                    <input class="form-control" type="text" id="email" th:field="*{email}"
-                           placeholder="example@example.com"/>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="username">Username</label>
-                    <input class="form-control" type="text" id="username" th:field="*{username}"
-                           placeholder="johndoe123"/>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="password">Password</label>
-                    <input class="form-control" type="password" id="password" th:field="*{password}"
-                           placeholder="password123"/>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 w-100">
+                                    <label for="email">Email Address</label>
+                                    <input class="form-control" type="text" id="email" th:field="*{email}"
+                                           placeholder="example@example.com"/>
+                                </div>
+                                <div class="form-group col-md-6 w-100">
+                                    <label for="username">Username</label>
+                                    <input class="form-control" type="text" id="username" th:field="*{username}"
+                                           placeholder="johndoe123"/>
+                                </div>
+                                <div class="form-group col-md-6 w-100">
+                                    <label for="password">Password</label>
+                                    <input class="form-control" type="password" id="password" th:field="*{password}"
+                                           placeholder="password123"/>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="btn btn-primary">Sign me up!</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Sign me up!</button>
-
-        </form>
+        </div>
     </th:block>
 </main>
 <main class="container">
     <th:block th:if="${user.id != null}">
-        <h1>Update My Account</h1>
-        <form th:action="@{/user/__${user.id}__/update}" method="POST" th:object="${user}">
+        <h1 style="text-align: center;">Update My Account</h1>
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <div class="card" style="width: 45rem;">
+                    <div class="card-body">
+                        <form th:action="@{/user/__${user.id}__/update}" method="POST" th:object="${user}">
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="email">Email Address</label>
-                    <input class="form-control" type="text" id="email2" th:field="*{email}" placeholder="example@example.com"/>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="username">Username</label>
-                    <input class="form-control" type="text" id="username2" th:field="*{username}" placeholder="johndoe123"/>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="password">Password</label>
-                    <input class="form-control" type="password" id="password2" th:field="*{password}" placeholder="password123"/>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 w-100">
+                                    <label for="email2">Email Address</label>
+                                    <input class="form-control " type="text" id="email2" th:field="*{email}"
+                                           placeholder="example@example.com"/>
+                                </div>
+                                <div class="form-group col-md-6 w-100">
+                                    <label for="username2">Username</label>
+                                    <input class="form-control" type="text" id="username2" th:field="*{username}"
+                                           placeholder="johndoe123"/>
+                                </div>
+                                <div class="form-group col-md-6 w-100">
+                                    <label for="password2">Password</label>
+                                    <input class="form-control" type="password" id="password2" th:field="*{password}"
+                                           placeholder="password123"/>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Update Profile</button>
-
-        </form>
+        </div>
     </th:block>
 </main>
 <!--<div>-->

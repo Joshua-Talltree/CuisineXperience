@@ -10,72 +10,123 @@
 <body>
 
 <div th:fragment="navbar">
-    <div sec:authorize="isAnonymous()">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand d-flex justify-content-between w-100" style="max-width: 110rem;" href="/posts">CuisineXperience</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <form class="nav-link" th:action="${'/signup'}">
-                            <button class="btn-link btn">Sign Up</button>
-                        </form>
-                    </li>
-                    <li class="nav-item active">
-                        <form class="nav-link" th:action="@{/login}" th:method="get">
-                            <button class="btn-link btn">Login</button>
-                        </form>
-                    </li>
-                </ul>
+    <nav class="navbar bg-navbar navbar-expand-md">
+        <div class="container">
+
+            <div class="col-12 col-md-2 navbar-brand ">
+                <div class="d-flex justify-content-between w-100 ">
+                    <a href="/">
+                        <img class="w-100" style="max-width: 10rem; max-height: 7rem;" src="../css/img/logo.png" alt="">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse"
+                            aria-controls="navCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-        </nav>
-    </div>
-</div>
-<div th:fragment="navbar">
-    <div sec:authorize="isAuthenticated()">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand w-100" href="/posts" style="max-width: 62rem">CusineXperience</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll"
-                    aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">Home</span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <form class="nav-link" th:action="@{'/profile/'}" th:method="get">
-                            <button class="btn-link btn">View Profile</button>
-                        </form>
-                    </li>
-                    <li class="nav-item active">
-                        <form class="nav-link" th:action="@{/posts/create}">
-                            <button class="btn-link btn">Create A Post</button>
-                        </form>
-                    </li>
-                    <li class="nav-item active">
-                        <form class="nav-link" th:action="@{/groups/create}">
-                            <button class="btn-link btn">Create A Group</button>
-                        </form>
-                    </li>
-                    <li class="nav-item active">
-                        <form class="nav-link" th:action="@{/logout}" th:method="post">
-                            <button class="btn-link btn">Logout</button>
-                        </form>
-                    </li>
-                    <li class="nav-item active">
-                        <form class="d-flex" th:action="@{'/posts/search'}" method="POST">
-                            <input class="form-control me-2" type="search" name="word" placeholder="Search"
-                                   aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </li>
-                </ul>
+
+            <div class="col-12 col-md-auto justify-content-center">
+
+                <div class="collapse navbar-collapse" id="navCollapse">
+
+                    <ul class="navbar-nav col-12 text-center">
+                        <li class="nav-item ">
+                            <a class="nav-link text-muted" href="/posts">Home</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                            <a class="nav-link text-muted" href="/user/admin">Admin</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link text-muted" href="/profile">Profile</a>
+                        </li>
+                        <li class="nav-item active" sec:authorize="isAuthenticated()">
+                            <form class="nav-link" th:action="@{/logout}" th:method="post">
+                                <button class="btn-link btn">Logout</button>
+                            </form>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a class="nav-link text-muted" href="/login">Sign In</a>
+                        </li>
+                        <li class="nav-item" sec:autorize="isAnonymous()">
+                            <a class="nav-link text-muted" href="/signup">Sign Up</a>
+                        </li>
+                    </ul>
+
+                </div>
+
             </div>
-        </nav>
-    </div>
+
+        </div>
+    </nav>
 </div>
+
+<!--<div th:fragment="navbar">-->
+<!--    <div sec:authorize="isAnonymous()">-->
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--            <a class="navbar-brand d-flex justify-content-between w-100" style="max-width: 110rem;" href="/posts">CuisineXperience</a>-->
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
+<!--                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
+<!--            <div class="collapse navbar-collapse" id="navbarSupportedContent1">-->
+<!--                <ul class="navbar-nav mr-auto">-->
+<!--                    <li class="nav-item active">-->
+<!--                        <form class="nav-link" th:action="${'/signup'}">-->
+<!--                            <button class="btn-link btn">Sign Up</button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item active">-->
+<!--                        <form class="nav-link" th:action="@{/login}" th:method="get">-->
+<!--                            <button class="btn-link btn">Login</button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div th:fragment="navbar">-->
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--            <a class="navbar-brand w-100" href="/posts" style="max-width: 62rem">CusineXperience</a>-->
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll"-->
+<!--                    aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon">Home</span>-->
+<!--            </button>-->
+<!--            <div class="collapse navbar-collapse" id="navbarSupportedContent2">-->
+<!--                <ul class="navbar-nav mr-auto">-->
+<!--                    <li class="nav-item active">-->
+<!--                        <form class="nav-link" th:action="@{'/profile/'}" th:method="get">-->
+<!--                            <button class="btn-link btn">View Profile</button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item active">-->
+<!--                        <form class="nav-link" th:action="@{/posts/create}">-->
+<!--                            <button class="btn-link btn">Create A Post</button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item active">-->
+<!--                        <form class="nav-link" th:action="@{/groups/create}">-->
+<!--                            <button class="btn-link btn">Create A Group</button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item active">-->
+<!--                        <form class="nav-link" th:action="@{/logout}" th:method="post">-->
+<!--                            <button class="btn-link btn">Logout</button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item active">-->
+<!--                        <form class="d-flex" th:action="@{'/posts/search'}" method="POST">-->
+<!--                            <input class="form-control me-2" type="search" name="word" placeholder="Search"-->
+<!--                                   aria-label="Search">-->
+<!--                            <button class="btn btn-outline-success" type="submit">Search</button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--    </div>-->
+<!--</div>-->
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -89,51 +140,3 @@
 
 
 
-<!--<div th:fragment="navbar">-->
-<!--    <nav class="navbar bg-navbar navbar-expand-md">-->
-<!--        <div class="container">-->
-
-<!--            <div class="col-12 col-md-2 navbar-brand ">-->
-<!--                <div class="d-flex justify-content-between w-100 ">-->
-<!--                    <a href="/">-->
-<!--                        <img class="w-100" style="max-width: 10rem;" src="/img/Logo.svg" alt="">-->
-<!--                    </a>-->
-<!--                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse"-->
-<!--                            aria-controls="navCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--                        <i class="fas fa-bars"></i>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-12 col-md-auto justify-content-center">-->
-
-<!--                <div class="collapse navbar-collapse" id="navCollapse">-->
-
-<!--                    <ul class="navbar-nav col-12 text-center">-->
-<!--                        <li class="nav-item ">-->
-<!--                            <a class="nav-link text-muted" href="/posts">Home</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
-<!--                            <a class="nav-link text-muted" href="/user/admin">Admin</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item" sec:authorize="isAuthenticated()">-->
-<!--                            <a class="nav-link text-muted" href="/profile">Profile</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item" sec:authorize="isAuthenticated()">-->
-<!--                            <a class="nav-link text-muted" th:href="@{/logout}" th:method="post">Logout</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item" sec:authorize="isAnonymous()">-->
-<!--                            <a class="nav-link text-muted" href="/login">Sign In</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item" sec:autorize="isAnonymous()">-->
-<!--                            <a class="nav-link text-muted" href="/signup"></a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-
-<!--                </div>-->
-
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </nav>-->
-<!--</div>-->
