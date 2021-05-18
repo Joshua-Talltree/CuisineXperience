@@ -1,17 +1,8 @@
-.card {
+.profile_card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
     margin: auto;
-    text-align: center;
-}
-
-#profileCard {
-    border: 0px none; !important;
-}
-
-.title {
-    color: grey;
-    font-size: 18px;
+    text-align: left;
 }
 
 button {

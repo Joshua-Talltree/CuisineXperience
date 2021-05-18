@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400&display=swap');
 
 body {
-    background-color: #eee;
+    background-image: url("interlaced.png");
     font-family: 'Poppins', sans-serif
+}
+
+nav {
+    background-color: white;
 }
 
 .card {

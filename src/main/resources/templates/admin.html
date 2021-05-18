@@ -21,9 +21,11 @@
                 </div>
                 <ul th:each="user : ${users}" class="list-group list-group-flush">
                     <li th:text="${user.id} + ${user.username}" class="list-group-item">An item</li>
-                    <form th:action="${'/user/' + user.id + '/delete'}" th:method="post">
-                        <button type="submit" class="btn btn-primary">Delete</button>
-                    </form>
+                    <div>
+                        <form th:action="${'/user/' + user.id + '/delete'}" th:method="post">
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </form>
+                    </div>
                 </ul>
             </div>
         </div>
