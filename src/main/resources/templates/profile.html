@@ -28,6 +28,7 @@
     </div>
 </main>
 <main class="container">
+    <br>
     <div class="row" th:unless="${isBlocked}">
         <div class="col-3">
             <div class="card profile_card" id="profileCard">
@@ -66,8 +67,8 @@
                 </div>
             </div>
         </div>
-        <br>
         <div class="col-6">
+            <br>
             <div th:each="item : ${posts}">
                 <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
                     <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
@@ -92,12 +93,13 @@
             </div>
         </div>
         <div class="col-3">
+            <br>
             <div th:if="${owner != null}">
-                <div class="card pb-2" style="width: 18rem;">
+                <div class="card" style="width: 18rem;">
                     <div class="card-header">
                         My Friends
                     </div>
-                    <ul th:if="${friends != null}" class="list-group list-group-flush pb-2">
+                    <ul th:if="${friends != null}" class="list-group list-group-flush">
                         <div th:each="yourFriends : ${friends}">
                             <a th:href="${'/profile/' + yourFriends.id}">
                                 <li th:text="${yourFriends.username}" class="list-group-item"></li>
@@ -105,7 +107,8 @@
                         </div>
                     </ul>
                 </div>
-                <div class="card pb-2" style="width: 18rem;" th:if="${isOwner}">
+                <br>
+                <div class="card" style="width: 18rem;" th:if="${isOwner}">
                     <div class="card-header">
                         Pending Friend Requests
                     </div>
@@ -127,28 +130,29 @@
                         </div>
                     </ul>
                 </div>
+                <br>
                 <div>
-                    <div class="card pb-2" style="width: 18rem;">
+                    <div class="card" style="width: 18rem;">
                         <div class="card-header">
                             My Groups
                         </div>
                         <ul th:if="${groups != null}" class="list-group list-group-flush">
                             <div th:each="yourGroups : ${groups}">
-                                <li th:text="${yourGroups.name}" class="list-group-item">An item</li>
+                                <a th:href="${'/groups/' + yourGroups.id}"><li th:text="${yourGroups.name}" class="list-group-item">An item</li></a>
                             </div>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="card pb-2" style="width: 18rem;">
+            <br>
+            <div class="card" style="width: 18rem;">
                 <div class="card-header">
                     Categories
                 </div>
-                <div class="pb-2">
+                <div>
                     <ul th:if="${categories != null}" class="list-group list-group-flush"
                         th:each="category : ${categories}">
-                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}"
-                                                                                     class="list-group-item"></span></a>
+                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}" class="list-group-item"></span></a>
                         </li>
                     </ul>
                 </div>
