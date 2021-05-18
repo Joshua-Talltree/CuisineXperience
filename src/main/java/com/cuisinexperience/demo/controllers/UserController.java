@@ -66,6 +66,7 @@ public class UserController {
     @GetMapping("profile/{ownerId}")
     public String showProfile(Model vModel, @PathVariable Long ownerId) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        loggedInUser = userDao.getOne(loggedInUser.getId());
         List<Post> posts = postDao.findPostsByOwnerId(ownerId);
         vModel.addAttribute("posts", posts);
 
@@ -78,13 +79,11 @@ public class UserController {
                 } else {
                     categories.add(post.getCategories().get(0));
                 }
-//            post.getCategories().stream().filter(category -> !categories.contains(category)).forEach(categories::add);
             }
         }
         List<Group> groups = groupDao.findAllByCreatedById(ownerId);
 
         List<Friends> friendsList = friendsDao.getAllByUserRecipientIdOrUserSenderId(userDao.getOne(ownerId), userDao.getOne(ownerId));
-        System.out.println("friendsList = " + friendsList);
         List<User> pending = new ArrayList<>();
         List<User> userList = new ArrayList<>();
         // filter out your id as a friend on your friends list
@@ -207,8 +206,14 @@ public class UserController {
     @PostMapping("/groups/create")
     public String createGroupsHere(@ModelAttribute Group groupToCreate, String createdById) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userToAdd = userDao.getOne(userToAdd.getId());
         groupToCreate.setCreatedById(userToAdd.getId());
         // save the group
+        groupDao.save(groupToCreate);
+        // add
+        List<User> member = new ArrayList<>();
+        member.add(userToAdd);
+        groupToCreate.setUsers(member);
         groupDao.save(groupToCreate);
         // set the group id
         groupToCreate.setName(String.valueOf(userToAdd));

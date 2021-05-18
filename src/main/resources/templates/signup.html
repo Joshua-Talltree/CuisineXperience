@@ -8,11 +8,12 @@
     <div th:include="/navbar.html :: navbar"></div>
 </div>
 <main class="container">
+    <br>
     <th:block th:if="${user.id == null}">
-        <h1 style="text-align: center;">Create an account</h1>
         <div class="row">
             <div class="d-flex justify-content-center">
                 <div class="card" style="width: 45rem;">
+                    <h1 style="text-align: center;">Create an account</h1>
                     <div class="card-body">
                         <form th:action="@{/signup}" method="POST" th:object="${user}">
 
@@ -48,11 +49,12 @@
     </th:block>
 </main>
 <main class="container">
+    <br>
     <th:block th:if="${user.id != null}">
-        <h1 style="text-align: center;">Update My Account</h1>
         <div class="row">
             <div class="d-flex justify-content-center">
                 <div class="card" style="width: 45rem;">
+                    <h1 style="text-align: center;">Update My Account</h1>
                     <div class="card-body">
                         <form th:action="@{/user/__${user.id}__/update}" method="POST" th:object="${user}">
 

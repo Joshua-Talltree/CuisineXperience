@@ -15,7 +15,7 @@
     <div>
         <h1 th:text="${groups.name}"></h1>
         <p th:text="${groups.description}"></p>
-        <ul th:each="users : ${groups.users}">
+        <ul style="list-style: none;" th:each="users : ${groups.users}">
             <li th:text="${users.username}"></li>
         </ul>
         <div th:if="${!isMember}">
