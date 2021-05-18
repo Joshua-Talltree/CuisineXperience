@@ -35,7 +35,7 @@
         <h1 class="text-center">See All Posts Here:</h1>
         <br>
         <div class="post row">
-            <div class="card text-black bg-light mb-3 col-6" th:each="post : ${posts}" style="max-width: 300rem;">
+            <div class="card text-black bg-light mb-3 col-6 p-2" th:each="post : ${posts}" style="max-width: 300rem;">
                 <img th:if="${post.imageUrl != null}" src="" alt="" th:src="${post.imageUrl}">
                 <div sec:authorize="isAuthenticated()" class="card-header">
                     <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>

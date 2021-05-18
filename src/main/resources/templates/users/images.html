@@ -11,11 +11,13 @@
 <h2 style="text-align: center;" th:text="${owner.username + 's Image Gallery'}"></h2>
 <br>
 <div class="container">
-    <div class="row col-12">
-        <div th:each="photos : ${posts}">
-            <img th:if="${photos.imageUrl != null}" th:src="${photos.imageUrl}" class="rounded float-start"
-                 style="max-width: 500px; max-height: 500px"
-                 alt="placeholder" src=""/>
+    <div class="row">
+        <div class="row col-12">
+            <div th:each="photos : ${posts}">
+                <img th:if="${photos.imageUrl != null}" th:src="${photos.imageUrl}" class="rounded float-start"
+                     style="max-width: 500px; max-height: 500px"
+                     alt="placeholder" src=""/>
+            </div>
         </div>
     </div>
 </div>

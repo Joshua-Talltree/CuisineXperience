@@ -6,6 +6,7 @@
 
 </head>
 <body>
+<!--<link rel="stylesheet" href="/css/img/profile-card.css">-->
 <div>
     <div th:include="/navbar.html :: navbar"></div>
 </div>
@@ -29,17 +30,19 @@
 <main class="container">
     <div class="row" th:unless="${isBlocked}">
         <div class="col-3">
-            <div class="card">
+            <div class="card profile_card" id="profileCard">
                 <img th:src="${owner.avatarUrl}" alt="" src="" style="border-radius: 50%">
                 <div class="card-header">
                     <h3 class="card-title" th:text="${owner.username + 's Profile'}">John Doe</h3>
                 </div>
                 <p class="title">CEO & Founder, Example</p>
                 <p>Harvard University</p>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <div class="btn-group d-flex flex-column" role="group" aria-label="Basic example">
+                <div class="d-flex justify-content-around">
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                </div>
+                <div class="btn-group d-flex flex-column" role="group" id="profileBtn" aria-label="Basic example">
                     <div th:if="${!alreadyFriends} and ${!isOwner}">
                         <form th:action="${'/user/' + owner.id + '/friend-request'}" method="POST">
                             <button type="submit" class="btn btn-success">Friend Me</button>
