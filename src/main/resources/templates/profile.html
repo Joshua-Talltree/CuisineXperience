@@ -64,6 +64,11 @@
                             <button type="submit" class="btn btn-success">Admin</button>
                         </form>
                     </div>
+                    <div th:if="${owner.isAdmin}">
+                        <form th:action="${'/user/' + owner.id + '/images'}" method="get">
+                            <button type="submit" class="btn btn-success">Photos</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

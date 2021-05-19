@@ -12,16 +12,21 @@
 
 <main class="container">
 
-    <div>
-        <h1 th:text="${groups.name}"></h1>
-        <p th:text="${groups.description}"></p>
-        <ul style="list-style: none;" th:each="users : ${groups.users}">
-            <li th:text="${users.username}"></li>
-        </ul>
-        <div th:if="${!isMember}">
-            <form th:action="${'/groups/' + groups.id  + '/join'}" method="POST">
-                <button class="btn btn-primary" type="submit">Join Group</button>
-            </form>
+    <br>
+    <div class="row">
+        <div class="card col-9 justify-content-center" style="width: 75rem;">
+            <div class="card-header">
+                <h1 th:text="${groups.name}"></h1>
+                <p th:text="${groups.description}"></p>
+            </div>
+            <ul style="list-style: none;" th:each="users : ${groups.users}">
+                <li th:text="${users.username}"></li>
+            </ul>
+            <div th:if="${!isMember}">
+                <form th:action="${'/groups/' + groups.id  + '/join'}" method="POST">
+                    <button class="btn btn-primary" type="submit">Join Group</button>
+                </form>
+            </div>
         </div>
     </div>
 
