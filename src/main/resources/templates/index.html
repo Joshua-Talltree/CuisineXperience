@@ -34,8 +34,8 @@
     <div th:unless="${word != null}">
         <h1 class="text-center">See All Posts Here:</h1>
         <br>
-        <div class="post row">
-            <div class="card text-black bg-light mb-3 col-6 p-2" th:each="post : ${posts}" style="max-width: 300rem;">
+        <div class="post d-flex flex-column align-items-center">
+            <div class="card text-black bg-light mb-3 col-9 p-2 d-flex justify-content-center" th:each="post : ${posts}" style="max-width: 300rem;">
                 <img th:if="${post.imageUrl != null}" src="" alt="" th:src="${post.imageUrl}">
                 <div sec:authorize="isAuthenticated()" class="card-header">
                     <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
@@ -83,9 +83,7 @@
                                 </div>
                                 <form th:action="@{/comment/create}" th:method="POST">
                                     <div class="bg-light pb-4">
-                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle"
-                                                                                            src="https://i.imgur.com/RpzrMR2.jpg"
-                                                                                            width="40">
+                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
                                             <label for="comment"></label>
                                             <textarea class="form-control ml-1 shadow-none textarea" name="comment"
                                                       id="comment" placeholder="Comment here"></textarea>

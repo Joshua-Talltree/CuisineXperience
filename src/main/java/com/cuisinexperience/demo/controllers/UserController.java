@@ -82,7 +82,6 @@ public class UserController {
             }
         }
         List<Group> groups = groupDao.findAllByCreatedById(ownerId);
-
         List<Friends> friendsList = friendsDao.getAllByUserRecipientIdOrUserSenderId(userDao.getOne(ownerId), userDao.getOne(ownerId));
         List<User> pending = new ArrayList<>();
         List<User> userList = new ArrayList<>();
@@ -222,9 +221,8 @@ public class UserController {
 
     @GetMapping("user/{ownerId}/images")
     public String allImagesFromUser(@PathVariable Long ownerId, Model vModel) {
-        List<Post> imagesFromDB = postDao.findAll();
         List<Post> posts = postDao.findPostsByOwnerId(ownerId);
-        vModel.addAttribute("posts", imagesFromDB);
+        vModel.addAttribute("posts", posts);
         vModel.addAttribute("owner", userDao.getOne(ownerId));
         return "users/images";
     }
