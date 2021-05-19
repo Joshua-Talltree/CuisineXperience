@@ -7,10 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -150,8 +147,6 @@ public class UserController {
     @GetMapping("/profile/{ownerId}/category/{categoryId}")
     public String seeCategory(@PathVariable Long categoryId, @PathVariable String ownerId, Model vModel) {
         Categories category = categoriesDao.getOne(categoryId);
-//        List<Post> posts = postDao.findPostsByCategoryAndContainsOwner(searchCategories, userDao.getOne(Long.parseLong(ownerId)));
-//        vModel.addAttribute("posts", posts);
         List<Post> posts =  postDao.findPostsByCategoriesEquals(category);
         vModel.addAttribute("posts", posts);
         vModel.addAttribute("owner", userDao.getOne(Long.parseLong(ownerId)));
@@ -226,5 +221,12 @@ public class UserController {
         vModel.addAttribute("owner", userDao.getOne(ownerId));
         return "users/images";
     }
+
+//    @PostMapping("/users/search")
+//    public String searchPosts(@RequestParam(name = "users") String term, Model vModel) {
+//        vModel.addAttribute("activeUser", userDao.findByUsernameContaining(term));
+//        vModel.addAttribute("users", term);
+//        return "index";
+//    }
 }
 
