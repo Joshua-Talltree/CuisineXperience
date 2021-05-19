@@ -39,9 +39,8 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public String individualPosts(@PathVariable Long id, Model vModel) {
-
-//        List<Comment> comments = commentDao.findCommentByIdAndPost(id);
-//        vModel.addAttribute("comment", comments);
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User loggedInUser = userDao.getOne(id);
         vModel.addAttribute("post", postDao.getOne(id));
         return "/show";
     }
