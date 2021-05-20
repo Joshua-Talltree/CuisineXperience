@@ -35,7 +35,8 @@
         <h1 class="text-center">See All Posts Here:</h1>
         <br>
         <div class="post d-flex flex-column align-items-center">
-            <div class="card text-black bg-light mb-3 col-9 p-2 d-flex justify-content-center" th:each="post : ${posts}" style="max-width: 300rem;">
+            <div class="card text-black bg-light mb-3 col-9 p-2 d-flex justify-content-center" th:each="post : ${posts}"
+                 style="max-width: 300rem;">
                 <img th:if="${post.imageUrl != null}" src="" alt="" th:src="${post.imageUrl}">
                 <div sec:authorize="isAuthenticated()" class="card-header">
                     <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
@@ -54,10 +55,12 @@
                             <div class="d-flex flex-column comment-section">
                                 <div class="bg-white p-2" th:each="postComments : ${post.getComment()}">
                                     <div class="d-flex flex-row user-info"><img class="rounded-circle" th:src="${postComments.getUserId().avatarUrl}" width="40">
-                                        <a th:href="${'/profile/' + postComments.getUserId().id}"><div class="d-flex flex-column justify-content-start ml-2"
-                                             th:text="${postComments.getUserId().username}">
-                                            <span class="d-block font-weight-bold name">Marry Andrews</span><span
-                                                class="date text-black-50">Shared publicly - Jan 2020</span></div></a>
+                                        <a th:href="${'/profile/' + postComments.getUserId().id}">
+                                            <div class="d-flex flex-column justify-content-start ml-2"
+                                                 th:text="${postComments.getUserId().username}">
+                                                <span class="d-block font-weight-bold name">Marry Andrews</span><span
+                                                    class="date text-black-50">Shared publicly - Jan 2020</span></div>
+                                        </a>
                                     </div>
                                     <div class="mt-2">
                                         <p class="comment-text" th:text="${postComments.comment}">Lorem ipsum dolor sit
@@ -71,34 +74,34 @@
                                 </div>
                                 <div class="bg-white">
                                     <div class="d-flex flex-row fs-12">
-                                        <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span
-                                                class="ml-1">Like</span>
-                                        </div>
-                                        <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span
-                                                class="ml-1">Comment</span></div>
-                                        <div class="like p-2 cursor"><i class="fa fa-share"></i><span
-                                                class="ml-1">Share</span>
+                                        <div class="like p-2 cursor">
+                                            <p>This post has been liked:<span th:text="${post.usersLiked.size()}"></span></p>
                                         </div>
                                     </div>
                                 </div>
                                 <form th:action="@{/comment/create}" th:method="POST">
                                     <div class="bg-light pb-4">
-                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="" width="40">
+                                        <div class="d-flex flex-row align-items-start">
                                             <label for="comment"></label>
                                             <textarea class="form-control ml-1 shadow-none textarea" name="comment"
                                                       id="comment" placeholder="Comment here"></textarea>
                                             <input type="hidden" name="postId" th:value="${post.id}">
                                         </div>
                                         <div class="mt-2 text-right">
-                                            <button class="btn btn-primary btn-sm shadow-none" type="submit">Post
-                                                comment
-                                            </button>
-                                            <button class="btn btn-outline-primary btn-sm ml-1 shadow-none"
-                                                    type="button">Cancel
+                                            <button class="btn btn-success btn-sm shadow-none" type="submit">Post
+                                                Comment
                                             </button>
                                         </div>
                                     </div>
                                 </form>
+                                <div class="mt-2 text-right">
+                                    <form th:action="@{/post/liked}" method="post">
+                                        <input type="hidden" name="postId" th:value="${post.id}">
+                                        <button class="btn btn-success btn-sm shadow-none" type="submit">Like
+                                            Post
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -119,3 +122,14 @@
 <!--    <img th:src="${post.imageUrl}" alt="placeholder" src=""/>-->
 <!--    <p th:text="${post.content}"></p>-->
 <!--</div>-->
+
+<!--<img class="rounded-circle" src="" width="40">-->
+
+<!--<div>-->
+<!--    <p>This post has been liked:<span th:text="${post.usersLiked.size()}"></span></p>-->
+<!--</div>-->
+
+<!--<form th:action="@{/post/liked}" method="post">-->
+<!--    <input type="hidden" name="postId" th:value="${post.id}">-->
+<!--    <button type="submit" class="btn btn-success">Like</button>-->
+<!--</form>-->

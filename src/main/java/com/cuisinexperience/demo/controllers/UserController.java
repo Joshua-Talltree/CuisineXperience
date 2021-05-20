@@ -2,6 +2,8 @@ package com.cuisinexperience.demo.controllers;
 
 import com.cuisinexperience.demo.models.*;
 import com.cuisinexperience.demo.repos.*;
+import org.aspectj.bridge.AbortException;
+import org.aspectj.bridge.IMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -67,6 +69,7 @@ public class UserController {
         List<Post> posts = postDao.findPostsByOwnerId(ownerId);
         vModel.addAttribute("posts", posts);
 
+        // show categories and post to categories
         List<Categories> categories = new ArrayList<>();
         HashMap<Long, String> existingCategories = new HashMap<>();
         for (Post post : posts) {
@@ -105,9 +108,9 @@ public class UserController {
         boolean isBlocked = false;
         boolean blockedByMe = false;
 
+        // block and unblock users
         List<BlockedUser> blockedUser = blockedUserDao.getAllByUserRecipientIdAndUserSenderId(loggedInUser, userDao.getOne(ownerId));
         List<BlockedUser> blockedUserReverse = blockedUserDao.getAllByUserRecipientIdAndUserSenderId(userDao.getOne(ownerId), loggedInUser);
-
 
        if(blockedUser.size() > 0) {
            isBlocked = true;
@@ -198,13 +201,22 @@ public class UserController {
     }
 
     @PostMapping("/groups/create")
-    public String createGroupsHere(@ModelAttribute Group groupToCreate, String createdById) {
+    public String createGroupsHere(Model vModel, @ModelAttribute Group groupToCreate, Long createdById, String name) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userToAdd = userDao.getOne(userToAdd.getId());
         groupToCreate.setCreatedById(userToAdd.getId());
-        // save the group
-        groupDao.save(groupToCreate);
-        // add
+
+        // check if group name already exists
+        Group newGroup = groupDao.getOne(createdById);
+        List<Group> group = groupDao.findAll();
+        vModel.addAttribute("group", group);
+        if(newGroup.getName().contains(name)) {
+//            return error("Group name already exists");
+        } else {
+            groupDao.save(groupToCreate);
+        }
+
+        // add user to group that they created.
         List<User> member = new ArrayList<>();
         member.add(userToAdd);
         groupToCreate.setUsers(member);
