@@ -76,7 +76,7 @@
                 <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
                     <img th:if="${item.imageUrl != null}" src="" alt="" th:src="${item.imageUrl}">
                     <div class="card-header">
-                        <h4 class="card-title" th:text="${item.title}"></h4>
+                        <a th:href="${'/posts/' + owner.id}"><h4 class="card-title" th:text="${item.title}"></h4></a>
                     </div>
                     <div class="card-body">
                         <p class="card-text" th:text="${item.content}"></p>

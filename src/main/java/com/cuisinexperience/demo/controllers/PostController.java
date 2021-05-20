@@ -1,10 +1,7 @@
 package com.cuisinexperience.demo.controllers;
 
 import com.cuisinexperience.demo.models.*;
-import com.cuisinexperience.demo.repos.CategoriesRepository;
-import com.cuisinexperience.demo.repos.CommentRepository;
-import com.cuisinexperience.demo.repos.PostRepository;
-import com.cuisinexperience.demo.repos.UserRepository;
+import com.cuisinexperience.demo.repos.*;
 import com.cuisinexperience.demo.services.EmailServices;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,13 +18,15 @@ public class PostController {
     private final CategoriesRepository categoriesDao;
     private final CommentRepository commentDao;
     private final EmailServices emailServices;
+    private final GroupRepository groupDao;
 
-    public PostController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, CommentRepository commentDao, EmailServices emailServices) {
+    public PostController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, CommentRepository commentDao, EmailServices emailServices, GroupRepository groupDao) {
         this.userDao = userDao;
         this.postDao = postDao;
         this.categoriesDao = categoriesDao;
         this.commentDao = commentDao;
         this.emailServices = emailServices;
+        this.groupDao = groupDao;
     }
 
     @GetMapping("/posts")
@@ -38,10 +37,18 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}")
-    public String individualPosts(@PathVariable Long id, Model vModel) {
-        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User loggedInUser = userDao.getOne(id);
+    public String individualPosts(@PathVariable Long id, String name, Model vModel) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User loggedInUser = userDao.getOne(user.getId());
+//        List<User> users = userDao.findAll();
+//        vModel.addAttribute("users", users);
         vModel.addAttribute("post", postDao.getOne(id));
+
+//        boolean isPostOwner = false;
+//
+//        if (loggedInUser.size() > 0) {
+//            return "/show";
+//        }
         return "/show";
     }
 
