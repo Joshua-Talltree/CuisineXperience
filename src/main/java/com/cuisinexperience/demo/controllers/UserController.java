@@ -201,19 +201,27 @@ public class UserController {
     }
 
     @PostMapping("/groups/create")
-    public String createGroupsHere(Model vModel, @ModelAttribute Group groupToCreate, Long createdById, String name) {
+    public String createGroupsHere(Model vModel, @ModelAttribute Group groupToCreate, String name) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userToAdd = userDao.getOne(userToAdd.getId());
         groupToCreate.setCreatedById(userToAdd.getId());
 
         // check if group name already exists
-        Group newGroup = groupDao.getOne(createdById);
-        List<Group> group = groupDao.findAll();
-        vModel.addAttribute("group", group);
-        if(newGroup.getName().contains(name)) {
-//            return error("Group name already exists");
-        } else {
+        List<Group> groups = groupDao.findAll();
+        int count = 0;
+        for (Group group : groups) {
+           if (group.getName().equalsIgnoreCase(groupToCreate.getName())) {
+               count++;
+           }
+        }
+        // save group if name does not exist
+        if(count == 0) {
             groupDao.save(groupToCreate);
+        } else {
+            vModel.addAttribute("alert", "<div class=\"alert alert-light\" role=\"alert\">\n" +
+                    "                                Invalid group name, name already exists" +
+                    "                                </div>");
+            return "groups";
         }
 
         // add user to group that they created.

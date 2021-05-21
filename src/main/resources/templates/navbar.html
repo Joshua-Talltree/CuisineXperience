@@ -24,12 +24,12 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <form class="nav-link" th:action="${'/signup'}">
-                                <button class="btn-link btn">Sign Up</button>
+                                <button class="btn-link btn"><i class="fas fa-user-plus"></i> Sign Up</button>
                             </form>
                         </li>
                         <li class="nav-item active">
                             <form class="nav-link" th:action="@{/login}" th:method="get">
-                                <button class="btn-link btn">Login</button>
+                                <button class="btn-link btn"><i class="fas fa-users"></i> Login</button>
                             </form>
                         </li>
                     </ul>
@@ -47,8 +47,8 @@
             </a>
             <div>
                 <form class="d-flex" th:action="@{'/posts/search'}" method="POST">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                    <input class="form-control me-2" type="search" name="word" placeholder="Search" aria-label="Search" style="width: 15rem">
+                    <button class="btn btn-outline-success mx-2" type="submit">Search</button>
+                    <input class="form-control mx-2" type="search" name="word" placeholder="Search" aria-label="Search" style="width: 15rem">
                 </form>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll"
@@ -60,22 +60,22 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <form class="nav-link" th:action="@{'/profile/'}" th:method="get">
-                                <button class="btn-link btn">View Profile</button>
+                                <button class="btn-link btn"><i class="far fa-user"></i> View Profile</button>
                             </form>
                         </li>
                         <li class="nav-item active">
                             <form class="nav-link" th:action="@{/posts/create}">
-                                <button class="btn-link btn">Create A Post</button>
+                                <button class="btn-link btn"><i class="far fa-file-alt"></i> Create A Post</button>
                             </form>
                         </li>
                         <li class="nav-item active">
                             <form class="nav-link" th:action="@{/groups/create}">
-                                <button class="btn-link btn">Create A Group</button>
+                                <button class="btn-link btn"><i class="fas fa-users"></i> Create A Group</button>
                             </form>
                         </li>
                         <li class="nav-item active">
                             <form class="nav-link" th:action="@{/logout}" th:method="post">
-                                <button class="btn-link btn">Logout</button>
+                                <button class="btn-link btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
                             </form>
                         </li>
                     </ul>

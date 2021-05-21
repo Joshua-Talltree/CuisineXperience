@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "posts")
-public class Post {
+public class Post implements Comparable<Post> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,6 +68,10 @@ public class Post {
         this.owner = owner;
         this.comment = comment;
         this.usersLiked = usersLiked;
+    }
+
+    public int compareTo(Post post) {
+        return this.timePosted.compareTo(post.timePosted);
     }
 
     public Long getId() {

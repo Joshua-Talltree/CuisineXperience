@@ -24,8 +24,7 @@
                             <div class="form-group">
                                 <label for="name">Group Name</label>
                                 <br>
-                                <input class="form-control" type="text" id="name" th:field="*{name}"
-                                       placeholder="the food group"/>
+                                <input class="form-control" type="text" id="name" th:field="*{name}" placeholder="the food group"/>
                             </div>
                         </div>
                         <div>
@@ -37,6 +36,7 @@
                         </div>
                         <button type="submit" class="btn btn-success mt-2">Create Group</button>
                     </form>
+                    <span th:utext="${alert}"></span>
                 </div>
             </div>
         </div>
