@@ -3,8 +3,16 @@
       layout:decorate="~{layout.html}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="/header.html :: header">
     <title>And, Here We Are!</title>
+    <meta property="og:url" content="https://www.cuisinexperience.com"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Your Website Title"/>
+    <meta property="og:description" content="Your description"/>
+    <meta property="og:image" content="https://www.cusinexperience.com/images"/>
 </head>
 <body>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0"
+        nonce="BUN6SWo0"></script>
 <div th:include="/navbar.html :: navbar"></div>
 <div sec:authorize="isAuthenticated()">
     <h2>Welcome <span th:text="${#authentication.principal.username}"></span></h2></div>
@@ -49,12 +57,20 @@
                         <h5 class="card-text" th:text="${post.timePosted}"></h5>
                     </div>
                 </div>
+                <div class="fb-share-button" data-href="https://www.facebook.com/joshua.talltree.9"
+                     data-layout="button_count" data-size="small">
+                    <a target="_blank"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Fjoshua.talltree.9&amp;src=sdkpreparse"
+                       class="fb-xfbml-parse-ignore">Share</a>
+                </div>
                 <div class="container mt-5">
                     <div class="d-flex justify-content-center row">
                         <div>
                             <div class="d-flex flex-column comment-section">
                                 <div class="bg-white p-2" th:each="postComments : ${post.getComment()}">
-                                    <div class="d-flex flex-row user-info"><img class="rounded-circle" th:src="${postComments.getUserId().avatarUrl}" width="40">
+                                    <div class="d-flex flex-row user-info"><img class="rounded-circle"
+                                                                                th:src="${postComments.getUserId().avatarUrl}"
+                                                                                width="40">
                                         <a th:href="${'/profile/' + postComments.getUserId().id}">
                                             <div class="d-flex flex-column justify-content-start ml-2"
                                                  th:text="${postComments.getUserId().username}">
@@ -75,7 +91,8 @@
                                 <div class="bg-white">
                                     <div class="d-flex flex-row fs-12">
                                         <div class="like p-2 cursor">
-                                            <p>This post has been liked:<span th:text="${post.usersLiked.size()}"></span></p>
+                                            <p>This post has been liked:<span
+                                                    th:text="${post.usersLiked.size()}"></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -114,6 +131,18 @@
     <!--    <footer th:replace="posts/footer :: footer"></footer>-->
 </div>
 </body>
+
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+
 </html>
 
 
