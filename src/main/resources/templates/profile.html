@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <title></title>
 
+
 </head>
+<link rel="stylesheet" href="/css/img/profile-card.css">
 <body>
-<!--<link rel="stylesheet" href="/css/img/profile-card.css">-->
 <div>
     <div th:include="/navbar.html :: navbar"></div>
 </div>
-<main class="container row">
-    <div th:if="${isBlocked}">
-        <div class="card">
-            <img th:src="${owner.avatarUrl}" src="" alt="" style="border-radius: 50%">
+<main class="container">
+    <br>
+    <div class="row" th:if="${isBlocked}">
+        <div class="card" style="max-width: 18rem;">
+            <img th:src="${owner.avatarUrl}" src="" alt="" class="rounded-circle">
             <div class="card-header">
                 <h3 class="card-title" th:text="${owner.username + 's Profile'}">John Doe</h3>
             </div>
-            <p class="title">CEO & Founder, Example</p>
-            <p>Harvard University</p>
             <div th:if="${blockedByMe}">
                 <form th:action="${'/user/' + owner.id + '/unblock'}" method="POST">
                     <button class="btn btn-secondary">Unblock Me</button>
@@ -28,11 +28,11 @@
     </div>
 </main>
 <main class="container">
-    <br>
     <div class="row" th:unless="${isBlocked}">
         <div class="col-3">
+            <br>
             <div class="card profile_card" id="profileCard">
-                <img th:src="${owner.avatarUrl}" alt="" src="" style="border-radius: 50%">
+                <img th:src="${owner.avatarUrl}" alt="" src="" class="rounded-circle">
                 <div class="card-header">
                     <h3 class="card-title" th:text="${owner.username + 's Profile'}">John Doe</h3>
                 </div>
@@ -82,7 +82,7 @@
                         <p class="card-text" th:text="${item.content}"></p>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-text" th:text="${item.timePosted}"></h5>
+                        <span th:text="${#calendars.format(item.timePosted, 'E, MMM dd yyyy h:mm a')}"></span>
                     </div>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <form th:action="${'/posts/' + item.id}">
@@ -138,7 +138,9 @@
                         </div>
                         <ul th:if="${groups != null}" class="list-group list-group-flush">
                             <div th:each="yourGroups : ${groups}">
-                                <a th:href="${'/groups/' + yourGroups.id}"><li th:text="${yourGroups.name}" class="list-group-item">An item</li></a>
+                                <a th:href="${'/groups/' + yourGroups.id}">
+                                    <li th:text="${yourGroups.name}" class="list-group-item">An item</li>
+                                </a>
                             </div>
                         </ul>
                     </div>
@@ -152,7 +154,8 @@
                 <div>
                     <ul th:if="${categories != null}" class="list-group list-group-flush"
                         th:each="category : ${categories}">
-                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}" class="list-group-item"></span></a>
+                        <li><a th:href="${'/profile/category/' + category.id}"><span th:text="${category.name}"
+                                                                                     class="list-group-item"></span></a>
                         </li>
                     </ul>
                 </div>
@@ -162,3 +165,5 @@
 </main>
 </body>
 </html>
+
+<!--<span th:text="${#dates.format(item.timePosted,'cal, MMM dd yyyy HH:mm:ss')}"></span>-->

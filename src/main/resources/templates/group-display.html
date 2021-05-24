@@ -10,11 +10,10 @@
     <div th:include="/navbar.html :: navbar"></div>
 </div>
 
-<main class="container">
-
+<div class="container d-flex flex-column align-items-center">
     <br>
     <div class="row">
-        <div class="card col-9 justify-content-center" style="width: 75rem;">
+        <div class="card col-9 justify-content-center" style="width: 55rem;">
             <div class="card-header">
                 <h1 th:text="${groups.name}"></h1>
                 <p th:text="${groups.description}"></p>
@@ -30,6 +29,6 @@
         </div>
     </div>
 
-</main>
+</div>
 </body>
 </html>

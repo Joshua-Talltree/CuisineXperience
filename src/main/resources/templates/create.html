@@ -23,16 +23,19 @@
                                     <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
                                 </select>
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label for="images">Insert Image</label>
                                 <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images" placeholder="Url" type="text">
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input th:field="*{title}" name="post_title" class="form-control" id="title"
                                        placeholder="eg: My BLOG"
                                        type="text">
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label for="body">Content</label>
                                 <textarea th:field="*{content}" name="post_body" class="form-control" id="body"
