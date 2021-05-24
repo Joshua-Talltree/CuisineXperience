@@ -31,3 +31,11 @@ a {
 button:hover, a:hover {
     opacity: 0.7;
 }
+
+.nav-link {
+    color: green;
+}
+
+.nav-item {
+    margin-left: -1em;
+}
