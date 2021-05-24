@@ -1,7 +1,0 @@
-{
-  "name": "cuisineXperience",
-  "version": "1.0.0",
-  "dependencies": {
-    "logrocket": "^1.2.1"
-  }
-}
