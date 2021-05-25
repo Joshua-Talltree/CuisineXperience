@@ -48,7 +48,7 @@ public class UserController {
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         userDao.save(user);
-        return "/login";
+        return "login";
     }
 
     @GetMapping("/profile")
@@ -181,7 +181,7 @@ public class UserController {
     @GetMapping("/user/{id}/update")
     public String updateUserForm(Model model, @PathVariable Long id){
         model.addAttribute("user", userDao.getOne(id));
-        return "/signup";
+        return "signup";
     }
 
     @PostMapping("/user/{id}/update")
@@ -197,7 +197,7 @@ public class UserController {
     @GetMapping("/groups/create")
     public String createGroups(Model model) {
         model.addAttribute("group", new Group());
-        return "/groups";
+        return "groups";
     }
 
     @PostMapping("/groups/create")

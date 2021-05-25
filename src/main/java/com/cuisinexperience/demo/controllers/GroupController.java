@@ -46,7 +46,7 @@ public class GroupController {
         }
         vModel.addAttribute("groups", groupDao.getOne(groupId));
         vModel.addAttribute("isMember", isMember);
-        return "/group-display";
+        return "group-display";
     }
 
     @PostMapping("/groups/{groupId}/join")

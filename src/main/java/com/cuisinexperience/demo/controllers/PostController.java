@@ -35,7 +35,7 @@ public class PostController {
         List<Post> postsFromDB = postDao.findAll();
         Collections.sort(postsFromDB, Collections.reverseOrder());
         vModel.addAttribute("posts", postsFromDB);
-        return "/index";
+        return "index";
     }
 
     @GetMapping("/posts/{id}")
@@ -53,14 +53,14 @@ public class PostController {
 
         vModel.addAttribute("isOwner", isOwner);
 
-        return "/show";
+        return "show";
     }
 
     @GetMapping("/posts/create")
     public String createPosts(Model vModel) {
         vModel.addAttribute("post", new Post());
         vModel.addAttribute("categories", categoriesDao.findAll());
-        return "/create";
+        return "create";
     }
 
     @PostMapping("/posts/create")
@@ -117,7 +117,7 @@ public class PostController {
     @GetMapping("comment/create")
     public String showCommentForm(Model vModel) {
         vModel.addAttribute("comments", new Comment());
-        return "/index";
+        return "index";
     }
 
     @PostMapping("/comment/create")
@@ -175,6 +175,6 @@ public class PostController {
         vModel.addAttribute("posts", posts);
         vModel.addAttribute("category", category);
 
-        return "/post-categories";
+        return "post-categories";
     }
 }
