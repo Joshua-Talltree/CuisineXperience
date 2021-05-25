@@ -191,7 +191,7 @@ public class UserController {
         userToUpdate.setPassword(hashPass);
         userToUpdate.setId(loggedInUser.getId());
         userDao.save(userToUpdate);
-        return "redirect:/profile/" + userToUpdate.getId();
+        return "redirect:/profile/" + id;
     }
 
     @GetMapping("/groups/create")
