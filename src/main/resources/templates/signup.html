@@ -15,7 +15,7 @@
                 <div class="card" style="width: 45rem;">
                     <h1 style="text-align: center;">Create an account</h1>
                     <div class="card-body">
-                        <form th:action="@{/signup}" method="POST" th:object="${user}">
+                        <form th:action="@{signup}" method="POST" th:object="${user}">
 
                             <div class="form-row">
                                 <div class="form-group">
@@ -59,7 +59,7 @@
                 <div class="card" style="width: 45rem;">
                     <h1 style="text-align: center;">Update My Account</h1>
                     <div class="card-body">
-                        <form th:action="@{/user/__${user.id}__/update}" method="POST" th:object="${user}">
+                        <form th:action="@{user/__${user.id}__/update}" method="POST" th:object="${user}">
 
                             <div class="form-row">
                                 <div class="form-group">
