@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header.html :: header">
     <title></title>
+
 </head>
 <body>
 <div>
@@ -19,14 +20,17 @@
                             <br>
                             <div>
                                 <label for="category">Select Category</label>
-                                <select class="form-select" name="categories" aria-label="Default select example" id="category">
-                                    <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                                <select class="form-select" name="categories" aria-label="Default select example"
+                                        id="category">
+                                    <option th:each="category : ${categories}" th:text="${category.name}"
+                                            th:value="${category.id}"></option>
                                 </select>
                             </div>
                             <br>
                             <div class="form-group">
                                 <label for="images">Insert Image</label>
-                                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images" placeholder="Url" type="text">
+                                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images"
+                                       placeholder="Url" type="text">
                             </div>
                             <br>
                             <div class="form-group">
@@ -42,7 +46,18 @@
                                           placeholder="eg: Fill in the blank"
                                           rows="3"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-success mt-2">Create</button>
+                            <div>
+                                <div>
+                                    <img style="max-width: 300px; max-height: 300px;" id="imagePreview" src="" alt=""/>
+                                </div>
+                                <div>
+                                    <input type="hidden" id="image" name="post_image_url">
+                                    <button id="addPicture" type="button" class="btn btn-success">Add Picture</button>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-success mt-2">Create Post</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -61,23 +76,32 @@
                             <br>
                             <div class="form-group">
                                 <label for="images2">Insert New Image</label>
-                                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images2"
-                                       placeholder="Url"
-                                       type="text">
+                                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images2" placeholder="Url" type="text">
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label for="title2">Title</label>
-                                <input th:field="*{title}" name="post_title" class="form-control" id="title2"
-                                       type="text"
-                                       placeholder="Title">
+                                <input th:field="*{title}" name="post_title" class="form-control" id="title2" type="text" placeholder="Title">
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label for="body2">Body</label>
-                                <textarea th:field="*{content}" name="post_body" class="form-control" id="body2"
-                                          placeholder="Body"
-                                          rows="3"></textarea>
+                                <textarea th:field="*{content}" name="post_body" class="form-control" id="body2" placeholder="Body" rows="3"></textarea>
+                                <div>
+                                    <div>
+                                        <img style="max-width: 300px; max-height: 300px;" id="imagePreview" src=""
+                                             alt=""/>
+                                    </div>
+                                    <div>
+                                        <input type="hidden" id="image" name="post_image_url">
+                                        <button id="addPicture" type="button" class="btn btn-success">Add Picture
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-success">Update</button>
+                            <div>
+                                <button type="submit" class="btn btn-success mt-1">Update</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -85,8 +109,14 @@
         </div>
     </th:block>
 </div>
-<div>
-    <!--    <footer th:replace="posts/footer :: footer"></footer>-->
-</div>
+
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="/keys.js"></script>
+
+<script src="/css/img/js/FileStackAPI.js"></script>
+
+
 </body>
 </html>

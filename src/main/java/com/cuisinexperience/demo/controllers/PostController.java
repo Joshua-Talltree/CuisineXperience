@@ -3,6 +3,7 @@ package com.cuisinexperience.demo.controllers;
 import com.cuisinexperience.demo.models.*;
 import com.cuisinexperience.demo.repos.*;
 import com.cuisinexperience.demo.services.EmailServices;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +15,16 @@ import java.util.List;
 
 @Controller
 public class PostController {
+
     private final UserRepository userDao;
     private final PostRepository postDao;
     private final CategoriesRepository categoriesDao;
     private final CommentRepository commentDao;
     private final EmailServices emailServices;
     private final GroupRepository groupDao;
+
+    @Value("${filestack_key}")
+    private String fileStackApiKey;
 
     public PostController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, CommentRepository commentDao, EmailServices emailServices, GroupRepository groupDao) {
         this.userDao = userDao;
@@ -64,18 +69,28 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPostsHere(@ModelAttribute Post postToCreate, @RequestParam(name = "categories") List<Categories> postCategories) {
+    public String createPostsHere(@ModelAttribute Post postToCreate, @RequestParam(name = "categories") List<Categories> postCategories, @RequestParam(name = "post_image_url") String imgUrl) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postToCreate.setCategories(postCategories);
+        Post savedImage = postDao.save(postToCreate);
             // set the user
             postToCreate.setOwner(userToAdd);
+            savedImage.setImageUrl(imgUrl);
 
             // save the post
             postDao.save(postToCreate);
+            postDao.save(savedImage);
 
             return "redirect:/posts";
         }
 
+
+    @RequestMapping(path = "/keys.js", produces = "application/javascript")
+    @ResponseBody
+    public String apiKey() {
+        System.out.println(fileStackApiKey);
+        return "const FileStackApiKey = `" + fileStackApiKey + "`";
+    }
 
     @GetMapping("/posts/category/{categoryId}")
     public String showCategory(@PathVariable String categoryId, Model vModel) {

@@ -49,22 +49,22 @@
                     </div>
                     <div th:if="${!isOwner}">
                         <form th:action="${'/user/' + owner.id + '/block'}" method="POST">
-                            <button class="btn btn-secondary" type="submit">Block This Person</button>
+                            <button class="btn btn-danger mt-1" type="submit">Block This Person</button>
                         </form>
                     </div>
                     <div th:if="${isOwner}">
                         <form th:action="${'/user/' + owner.id + '/update'}" method="get">
-                            <button type="submit" class="btn btn-success">Update Profile</button>
+                            <button type="submit" class="btn btn-success mt-1">Update Profile</button>
                         </form>
                     </div>
                     <div th:if="${owner.isAdmin}">
                         <form th:action="${'/user/admin'}" method="get">
-                            <button type="submit" class="btn btn-success">Admin</button>
+                            <button type="submit" class="btn btn-success mt-1">Admin</button>
                         </form>
                     </div>
                     <div>
                         <form th:action="${'/user/' + owner.id + '/images'}" method="get">
-                            <button type="submit" class="btn btn-success">Photos</button>
+                            <button type="submit" class="btn btn-success mt-1">Photos</button>
                         </form>
                     </div>
                 </div>
