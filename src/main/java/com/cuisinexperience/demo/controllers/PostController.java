@@ -23,7 +23,7 @@ public class PostController {
     private final EmailServices emailServices;
     private final GroupRepository groupDao;
 
-    @Value("${filestack_key}")
+    @Value("${filestackKey}")
     private String fileStackApiKey;
 
     public PostController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, CommentRepository commentDao, EmailServices emailServices, GroupRepository groupDao) {
