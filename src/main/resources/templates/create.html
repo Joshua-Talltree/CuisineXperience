@@ -28,12 +28,6 @@
                             </div>
                             <br>
                             <div class="form-group">
-                                <label for="images">Insert Image</label>
-                                <input th:field="*{imageUrl}" name="post_title" class="form-control" id="images"
-                                       placeholder="Url" type="text">
-                            </div>
-                            <br>
-                            <div class="form-group">
                                 <label for="title">Title</label>
                                 <input th:field="*{title}" name="post_title" class="form-control" id="title"
                                        placeholder="eg: My BLOG"
@@ -48,7 +42,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <img style="max-width: 300px; max-height: 300px;" id="imagePreview" src="" alt=""/>
+                                    <img style="max-width: 300px; max-height: 300px; padding: 10px;" id="imagePreview" src="" alt=""/>
                                 </div>
                                 <div>
                                     <input type="hidden" id="image" name="post_image_url">

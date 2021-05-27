@@ -23,7 +23,7 @@
                             <p class="card-text" th:text="${post.content}"></p>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-text" th:text="${post.timePosted}"></h5>
+                            <span th:text="${#calendars.format(post.timePosted, 'E, MMM dd yyyy h:mm a')}"></span>
                         </div>
                     </div>
                 </div>
