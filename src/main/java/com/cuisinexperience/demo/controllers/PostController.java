@@ -108,14 +108,12 @@ public class PostController {
     @PostMapping("/posts/{id}/update")
     public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable String id, @RequestParam(name = "post_image_url") String imgUrl) {
         User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Post savedImage = postDao.save(postToUpdate);
         postToUpdate.setId(Long.parseLong(id));
-        savedImage.setImageUrl(imgUrl);
+        postToUpdate.setImageUrl(imgUrl);
         // set the user
         postToUpdate.setOwner(userToAdd);
         // save the post
         postDao.save(postToUpdate);
-        postDao.save(savedImage);
         return "redirect:/posts";
     }
 

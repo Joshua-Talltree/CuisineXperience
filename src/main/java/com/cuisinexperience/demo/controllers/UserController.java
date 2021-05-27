@@ -74,10 +74,12 @@ public class UserController {
         HashMap<Long, String> existingCategories = new HashMap<>();
         for (Post post : posts) {
             if(post.getCategories().size() > 0) {
-                if (existingCategories.containsKey(post.getCategories().get(0).getId())) {
+                if (categories.contains(post.getCategories().get(0))) {
 
                 } else {
                     categories.add(post.getCategories().get(0));
+//                    existingCategories.(post.getCategories.get(0).getId()):
+//                    existingCategories.addValue(post.getCategories().get(0));
                 }
             }
         }
