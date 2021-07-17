@@ -2,12 +2,10 @@ package com.cuisinexperience.demo.controllers;
 
 import com.cuisinexperience.demo.models.*;
 import com.cuisinexperience.demo.repos.*;
-import org.aspectj.bridge.AbortException;
-import org.aspectj.bridge.IMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +13,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:8080")
+@RestController
 public class UserController {
 
-    private final UserRepository userDao;
-    private final PostRepository postDao;
-    private final CategoriesRepository categoriesDao;
-    private final PasswordEncoder passwordEncoder;
-    private final GroupRepository groupDao;
-    private final FriendsRepository friendsDao;
-    private final BlockedUserRepository blockedUserDao;
+    @Autowired
+    UserRepository userDao;
+
+    @Autowired
+    PostRepository postDao;
+
+    @Autowired
+    CategoriesRepository categoriesDao;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    GroupRepository groupDao;
+
+    @Autowired
+    FriendsRepository friendsDao;
+
+    @Autowired
+    BlockedUserRepository blockedUserDao;
 
 
     public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, GroupRepository groupDao, FriendsRepository friendsDao, BlockedUserRepository blockedUserDao) {
@@ -44,12 +56,23 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String saveUser(@ModelAttribute User user) {
+    public String saveUser(@ModelAttribute User user, @RequestParam(name = "post_image_url") String imgUrl) {
         String hash = passwordEncoder.encode(user.getPassword());
+        User savedImage = userDao.save(user);
         user.setPassword(hash);
+        savedImage.setAvatarURl(imgUrl);
+
         userDao.save(user);
+        userDao.save(savedImage);
         return "login";
     }
+
+//    @RequestMapping(path = "/keys.js", produces = "application/javascript")
+//    @ResponseBody
+//    public String apiKey() implements PostController {
+//        System.out.println(fileStackApiKey);
+//        return "const FileStackApiKey = `" + fileStackApiKey + "`";
+//    }
 
     @GetMapping("/profile")
     public String showUserProfile(Model model){
@@ -187,11 +210,13 @@ public class UserController {
     }
 
     @PostMapping("/user/{id}/update")
-    public String updatePost(@ModelAttribute User userToUpdate, @PathVariable Long id){
+    public String updatePost(@ModelAttribute User userToUpdate, @PathVariable Long id, @RequestParam(name = "post_image_url") String imgUrl){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String hashPass = passwordEncoder.encode(userToUpdate.getPassword());
         userToUpdate.setPassword(hashPass);
         userToUpdate.setId(loggedInUser.getId());
+        userToUpdate.setAvatarURl(imgUrl);
+
         userDao.save(userToUpdate);
         return "redirect:/profile/" + id;
     }
