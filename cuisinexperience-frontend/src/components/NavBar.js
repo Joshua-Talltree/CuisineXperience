@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import { SocialIcon } from "react-social-icons";
+import Search from '../components/Search'
 
 export default function NavBar() {
     return (
-        <header className="bg-blue-600">
+        <header className="bg-yellow-50">
             <div className="container mx-auto flex justify-between">
                 <nav className="flex">
                     <NavLink
@@ -37,13 +38,12 @@ export default function NavBar() {
                         About Me!
                     </NavLink>
                 </nav>
-                <div className="inline-flex py-3 px-3 my-6">
-                    <SocialIcon
-                        url="https://www.linkedin.com/in/joshua-talltree/"
+                <div className="inline-flex py-1 px-1 my-6">
+                    <Search
                         className="mr-4"
                         target="_blank"
                         fgColor="#fff"
-                        style={{ height: 35, width: 35 }}
+                        style={{ height: 20, width: 20 }}
                     />
                     <SocialIcon
                         url="https://www.reddit.com/user/Good_Historian3282"

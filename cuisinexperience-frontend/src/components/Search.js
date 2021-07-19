@@ -59,22 +59,22 @@ const Search = () => {
 
 
     return (
-        <div className="search-bar ui segment">
-            <div className="ui form">
-                <div className="field">
-                    <label>Enter Search Term</label>
-                    <input
-                        value={term}
-                        onChange={e => setTerm(e.target.value)}
-                        className="input"
-                    />
+        <div className="p-1">
+            <div className="bg-white flex items-center rounded-full shadow-xl">
+                <input className="input rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none"
+                       value={term}
+                       onChange={e => setTerm(e.target.value)}
+                />
+                <div className="p-4">
+                    <button className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-12 h-12 flex items-center justify-center">
+                        icon
+                    </button>
                 </div>
-            </div>
-            <div className="ui celled list">
-                {renderedResults}
             </div>
         </div>
     );
 };
+
+
 
 export default Search;
