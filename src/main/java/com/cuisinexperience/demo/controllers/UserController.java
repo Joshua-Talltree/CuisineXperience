@@ -13,30 +13,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8080")
-@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController("api/")
 public class UserController {
 
     @Autowired
-    UserRepository userDao;
+    private final UserRepository userDao;
 
     @Autowired
-    PostRepository postDao;
+    private final PostRepository postDao;
 
     @Autowired
-    CategoriesRepository categoriesDao;
+    private CategoriesRepository categoriesDao;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    GroupRepository groupDao;
+    private final GroupRepository groupDao;
 
     @Autowired
-    FriendsRepository friendsDao;
+   private final FriendsRepository friendsDao;
 
     @Autowired
-    BlockedUserRepository blockedUserDao;
+    private final BlockedUserRepository blockedUserDao;
 
 
     public UserController(UserRepository userDao, PostRepository postDao, CategoriesRepository categoriesDao, PasswordEncoder passwordEncoder, GroupRepository groupDao, FriendsRepository friendsDao, BlockedUserRepository blockedUserDao) {
