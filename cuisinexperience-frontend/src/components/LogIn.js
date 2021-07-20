@@ -1,6 +1,27 @@
 import React, { useState, useEffect} from 'react';
+import axios from "axios";
 
 const LogIn = () => {
+    const [userName, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    // useEffect(() => {
+    //     const search = async () => {
+    //         const {data} = await axios.get('https://en.wikipedia.org/w/api.php', {
+    //             params: {
+    //                 action: 'query',
+    //                 list: 'search',
+    //                 origin: '*',
+    //                 format: 'json',
+    //                 srsearch: debouncedTerm,
+    //             }
+    //         });
+    //
+    //         setResults(data.query.search);
+    //     };
+    //     search();
+    // })
+
     return (
         <div className="w-64 flex shadow-lg flex-col bg-cover bg-center justify-content bg-white p-6 rounded pt-8 pb-8">
             <div className="text-center text-gray-500 mb-6">
