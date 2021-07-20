@@ -59,22 +59,23 @@ const Search = () => {
 
 
     return (
-        <div className="p-1">
-            <div className="bg-white flex items-center rounded-full shadow-xl">
-                <input className="input rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none"
+        <div className="px-3">
+            <div className="flex border-grey-light border">
+                <input className="w-full rounded ml-4"
+                       type="text"
+                       placeholder="Search..."
                        value={term}
                        onChange={e => setTerm(e.target.value)}
                 />
-                <div className="p-4">
-                    <button className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-12 h-12 flex items-center justify-center">
-                        icon
-                    </button>
-                </div>
+                <button className="bg-grey-lightest border-grey border-l shadow hover:bg-grey-lightest">
+                    <span className="w-auto flex justify-end items-center text-grey p-1 hover:text-grey-darkest">
+                    <i className="material-icons text-xs">search</i>
+                    </span>
+                </button>
             </div>
         </div>
     );
 };
-
 
 
 export default Search;

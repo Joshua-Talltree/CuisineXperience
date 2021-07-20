@@ -1,20 +1,23 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import { SocialIcon } from "react-social-icons";
+import Icon from 'react-icons-kit';
+import { login } from 'react-icons-kit/iconic/login'
 import Search from '../components/Search'
+
 
 export default function NavBar() {
     return (
-        <header className="bg-yellow-50">
+        <header className="bg-gray-200">
             <div className="container mx-auto flex justify-between">
                 <nav className="flex">
                     <NavLink
+                        url="./src/logo.png"
                         to="/"
                         exact
                         activeClassName="text-white"
                         className="inflex-flex items-center py-6 px-3 mr-4 text-blue-100 hover:text-green-800 text-4xl font-bold tracking-widest"
                     >
-                        Joshua Talltree
+                        CuisineXperience
                     </NavLink>
                     <NavLink
                         to="/post"
@@ -38,19 +41,19 @@ export default function NavBar() {
                         About Me!
                     </NavLink>
                 </nav>
-                <div className="inline-flex py-1 px-1 my-6">
+                <div className="inline-flex py-2 px-4 my-6">
                     <Search
                         className="mr-4"
                         target="_blank"
                         fgColor="#fff"
                         style={{ height: 20, width: 20 }}
                     />
-                    <SocialIcon
-                        url="https://www.reddit.com/user/Good_Historian3282"
-                        className="mr-4"
+                    <Icon
+                        className="mr-4 px-2"
                         target="_blank"
-                        fgColor="#fff"
-                        style={{ height: 35, width: 35 }}
+                        title="login"
+                        icon={login}
+                        size={26}
                     />
                 </div>
             </div>
