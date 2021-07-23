@@ -3,18 +3,18 @@ import axios from 'axios';
 
 
 const UserComponent = () => {
-    const [users, getUsers] = useState('');
-    const [results, setResults] = useState([]);
+    const [users, getUsers] = useState([]);
+
 
     useEffect(() => {
         const users_api = async () => {
             const {data} = await axios.get('http://localhost:8080/api/users');
 
-            setResults(data.query.users_api);
+            getUsers(data.query.users_api);
         };
 
         users_api();
-    }, [users])
+    }, [users]);
 
 
     const renderedResults = results.map((result) => {
@@ -44,3 +44,4 @@ const UserComponent = () => {
 }
 
 export default UserComponent;
+
