@@ -1,24 +1,23 @@
-import React from 'react';
-import UserService from '../services/UserService';
-
-class UserComponent extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            users: []
-        }
-    }
-
-    componentDidMount() {
-        UserService.getUsers().then((response) => {
-            this.setState({ users: response.data})
-        })
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 
 
-    }
+const UserComponent = () => {
+    const [users, getUsers] = useState('');
+    const [results, setResults] = useState([]);
 
-    render() {
+    useEffect(() => {
+        const users_api = async () => {
+            const {data} = await axios.get('http://localhost:8080/api/users');
+
+            setResults(data.query.users_api);
+        };
+
+        users_api();
+    }, [users])
+
+
+    const renderedResults = results.map((result) => {
         return (
             <div>
                 <h1 className="text-center"> Users List</h1>
@@ -26,31 +25,22 @@ class UserComponent extends React.Component {
                     <thead>
                     <tr>
 
-                        <td> User Id</td>
-                        <td> User First Name</td>
-                        <td> User Last Name</td>
-                        <td> User Email Id</td>
+                        <td> {result.id}</td>
+                        <td> {result.username}</td>
+                        <td> {result.email}</td>
                     </tr>
-
+                    {renderedResults}
                     </thead>
                     <tbody>
                     {
-                        this.state.users.map(
-                            user =>
-                                <tr key={user.id}>
-                                    <td> {user.id}</td>
-                                    <td> {user.firstName}</td>
-                                    <td> {user.lastName}</td>
-                                    <td> {user.email}</td>
-                                </tr>
-                        )
+
                     }
                     </tbody>
                 </table>
 
             </div>
         )
-    }
+    });
 }
 
 export default UserComponent;
